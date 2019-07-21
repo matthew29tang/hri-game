@@ -1,8 +1,4 @@
 import React from 'react';
-import {
-  HashRouter as Router,
-  NavLink
-} from "react-router-dom";
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -11,7 +7,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 
 import Routing from './Routing.js';
 import styles from './navBarStyles.js'

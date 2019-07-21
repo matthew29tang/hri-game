@@ -11,7 +11,6 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 
 import Notfound from "./notfound.js";
-import Intro from '../Intro.js';
 import Game from '../game/Game.js';
 import About from "../About.js";
 
@@ -25,8 +24,7 @@ const routing = (
   <Router>
     <div className="Router">
       <Switch>
-        <Route exact path="/" component={Intro} />
-        <Route path="/game/" component={Game} />
+        <Route exact path="/" component={Game} />
         <Route path="/about/" component={About} />
         <Route component={Notfound} />
       </Switch>

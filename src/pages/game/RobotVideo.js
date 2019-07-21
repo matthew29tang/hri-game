@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import YouTubePlayer from 'react-player/lib/players/YouTube'
 import {rewards, rooms} from '../config.js';
 
-const URL = "https://www.youtube.com/watch?v=LDU_Txk06tM";
+const URL = "https://www.youtube.com/watch?v=FTQbiNvZqaY";
 
 const styles = theme => ({
   card: {
@@ -24,7 +24,7 @@ const styles = theme => ({
   },
 });
 
-class HumanVideo extends React.Component {
+class RobotVideo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -51,11 +51,11 @@ class HumanVideo extends React.Component {
     const { classes } = this.props;
 
     return (
-      <div className="humanVideo">
-        <h1> Your choice</h1>
+      <div className="RobotVideo">
+        <h1> Robot's choice</h1>
         <Divider />
         <br />
-        The robot received your command to attempt {rooms[this.props.action]} worth {parseInt(rewards[this.props.stage][this.props.action])} points. 
+        The robot has chosen to attempt {rooms[this.props.action]} worth {parseInt(rewards[this.props.stage][this.props.action])} points. 
         Click the button to see the results.
         <br />
         <br />
@@ -80,9 +80,9 @@ class HumanVideo extends React.Component {
           </Button> : ""}
       <br/>
       {this.state.videoDone && this.props.roundScore > 0 ? 
-        `Congrats! You have won ${this.props.roundScore} point(s). Click continue to see what the robot will choose!` : ""}
+        `The robot succeeded! Your total score is ${this.props.roundScore} point(s). Click continue to play another round with the same robot!` : ""}
       {this.state.videoDone && this.props.roundScore === 0 ? 
-        `Unfortunately the robot failed the room. You scored 0 points. Click continue to see what the robot will choose!` : ""}  
+        `Unfortunately the robot failed the room. Your total score is ${this.props.roundScore} point(s) Click continue to play another round with the same robot!` : ""}  
       {this.state.videoDone ?
       <div className="buttons">
         <Button variant="contained" color="primary" className={classes.button} onClick={() => this.player.seekTo(0, "seconds")}>
@@ -100,4 +100,4 @@ class HumanVideo extends React.Component {
   }
 }
 
-export default withStyles(styles)(HumanVideo);
+export default withStyles(styles)(RobotVideo);

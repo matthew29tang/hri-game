@@ -1,9 +1,12 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
-import {rewards, successes} from '../config.js'
+import { rewards, successes } from '../config.js'
+import Intro from './Intro.js';
 import RoomOptions from './RoomOptions.js';
 import HumanVideo from './HumanVideo.js';
+import RobotVideo from './RobotVideo.js';
+
 
 const styles = theme => ({
   card: {
@@ -23,10 +26,13 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: '',
+      valid: false,
       history: [],
       stage: 0,
       score: 0,
-      page: "chooseRoom"
+      page: "intro",
+      roundScore: 0,
     }
   }
 
@@ -34,23 +40,24 @@ class Game extends React.Component {
   _updateHistory = (move) => {
     this.setState(state => {
       const history = state.history.concat(move);
-      return {history}
+      return { history }
     })
   }
 
-  // Stages go from 0 to 4, 5 indicates a finished game.
-  incrementStage = () => {
-    this.setState(state => {
-      return {stage: state.stage + 1}
-    });
-  }
-
-  _updateScore = (chosenRoom) => {
+  _updateScore = (chosenRoom, type) => {
     const success = successes[this.state.stage][chosenRoom]
-    const newPoints = rewards[this.state.stage][chosenRoom] ? success : 0
+    const newPoints = success ? rewards[this.state.stage][chosenRoom] : 0
+    console.log("Gained " + newPoints + " pts");
     this.setState(state => {
-      return {score: state.score + newPoints}
+      return { score: state.score + newPoints }
     })
+    if (type === "human") {
+      this.setState({ roundScore: newPoints })
+    } else {
+      this.setState(state => {
+        return { roundScore: state.roundScore + newPoints }
+      })
+    }
   }
 
   _updatePage = (newPage) => {
@@ -59,26 +66,73 @@ class Game extends React.Component {
     })
   }
 
+  // Intro screen --> Human room options
+  beginGame = () => {
+    this._updatePage("chooseRoom");
+  }
+
+  setName = name => event => {
+    this.setState({ [name]: event.target.value });
+  };
+
+  validData = () => {
+    this.setState(state => {
+      const validData = !state.valid
+      return { valid: validData }
+    })
+  }
+
+  // Human chooses room --> Human action video
   chooseRoom = (room) => {
-    this._updateScore(room);
+    this._updateScore(room, "human");
     this._updateHistory(room);
     this._updatePage("humanVideo");
   }
 
-  // Legacy
-  updateState = (req, data) => {
-    this.setState({
-      [req]: data
+  // Human action video --> Robot action video
+  getRobotAction = () => {
+    // Index into the cached mcts results to get robot action
+    const robotAction = 0;
+    this._updateScore(robotAction, "robot");
+    this._updateHistory(robotAction);
+    this._updatePage("robotVideo");
+  }
+
+  // Stages go from 0 to 4, 5 indicates a finished game.
+  incrementStage = () => {
+    this.setState(state => {
+      return { stage: state.stage + 1, roundScore: 0 }
     });
+    this._updatePage("chooseRoom");
   }
 
   render() {
     return (
       <div className="game">
-        {this.state.page === "chooseRoom" ? 
-          <RoomOptions stage={this.state.stage} chooseRoom={this.chooseRoom}/> : ""}
-        {this.state.page === "humanVideo" ? 
-          <HumanVideo stage={this.state.stage} action={this.state.history[this.state.history.length - 1]}/> : ""}  
+        {this.state.page === "intro" ?
+          <Intro
+            nextPage={this.beginGame}
+            setName={this.setName}
+            validData={this.validData}
+            name={this.state.name} /> : ""}
+        {this.state.page === "chooseRoom" ?
+          <RoomOptions
+            stage={this.state.stage}
+            nextPage={this.chooseRoom} /> : ""}
+        {this.state.page === "humanVideo" ?
+          <HumanVideo
+            stage={this.state.stage}
+            action={this.state.history[this.state.history.length - 1]}
+            score={this.state.roundScore}
+            roundScore={this.state.roundScore}
+            nextPage={this.getRobotAction} /> : ""}
+        {this.state.page === "robotVideo" ?
+          <RobotVideo
+            stage={this.state.stage}
+            action={this.state.history[this.state.history.length - 1]}
+            score={this.state.roundScore}
+            roundScore={this.state.roundScore}
+            nextPage={this.incrementStage} /> : ""}
       </div>
     );
   }

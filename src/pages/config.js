@@ -14,4 +14,11 @@ const successes = [success1, success2, success3, success4, success5]
 
 const videos = []
 
-export {rewards, successes, videos};
+const rooms = {
+    0: 'Room A',
+    1: 'Room B',
+    2: 'Room C',
+    3: 'Room D',
+  }
+
+export {rewards, successes, videos, rooms};
