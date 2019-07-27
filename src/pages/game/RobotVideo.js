@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
+import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import YouTubePlayer from 'react-player/lib/players/YouTube'
 import {rewards, rooms} from '../config.js';
@@ -22,6 +23,12 @@ const styles = theme => ({
   button: {
     margin: theme.spacing(1) * 2,
   },
+  body: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    paddingLeft: 70,
+    paddingRight: 70,
+  }
 });
 
 class RobotVideo extends React.Component {
@@ -88,12 +95,38 @@ class RobotVideo extends React.Component {
         <Button variant="contained" color="primary" className={classes.button} onClick={() => this.player.seekTo(0, "seconds")}>
         Replay
         </Button>
-        <Button variant="contained" color="primary" className={classes.button} onClick={this.props.nextPage}>
-        Continue
-        </Button>
       </div> : ""}
 
-      {this.state.playtime > 0 && !this.state.videoDone? "Finish watching the video to proceed." : "" } 
+      {this.state.playtime > 0 && !this.state.videoDone? "Finish watching the video to proceed." : "" }
+
+      {this.state.videoDone ?
+          <div className={classes.body}>
+            Do you think {rooms[this.props.action]} was a good or bad choice for the robot to attempt?
+            <br />
+            What do you think the robot's strategy is?
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Explanation"
+              multiline
+              fullWidth
+              rows="6"
+              rowsMax="20"
+              onChange={this.props.saveText('R' + this.props.stage)}
+              className={classes.textField}
+              margin="normal"
+              variant="outlined"
+            />
+          </div> : ""}
+        {this.state.videoDone ?
+          <div>
+            Click the button to submit your response and see the results.
+            <br />
+            <Button variant="contained" color="primary" className={classes.button} onClick={this.props.nextPage}>
+              Submit &amp; Continue
+            </Button>
+        </div> : ""}
+        
+
       </div>
       
     );

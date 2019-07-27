@@ -1,11 +1,12 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
-import { rewards, successes } from '../config.js'
+import { rewards, successes, robot_actions } from '../config.js'
 import Intro from './Intro.js';
 import RoomOptions from './RoomOptions.js';
 import HumanVideo from './HumanVideo.js';
 import RobotVideo from './RobotVideo.js';
+import End from './End.js';
 
 
 const styles = theme => ({
@@ -31,8 +32,9 @@ class Game extends React.Component {
       history: [],
       stage: 0,
       score: 0,
-      page: "intro",
+      page: 'chooseRoom',//"intro",
       roundScore: 0,
+      id: 'null',
     }
   }
 
@@ -69,9 +71,11 @@ class Game extends React.Component {
   // Intro screen --> Human room options
   beginGame = () => {
     this._updatePage("chooseRoom");
+    const id = Math.floor(Math.random() * 2 ** 16);
+    this.setState({id: id})
   }
 
-  setName = name => event => {
+  saveText = name => event => {
     this.setState({ [name]: event.target.value });
   };
 
@@ -92,7 +96,7 @@ class Game extends React.Component {
   // Human action video --> Robot action video
   getRobotAction = () => {
     // Index into the cached mcts results to get robot action
-    const robotAction = 0;
+    const robotAction = robot_actions[this.state.history.join('')]
     this._updateScore(robotAction, "robot");
     this._updateHistory(robotAction);
     this._updatePage("robotVideo");
@@ -103,7 +107,11 @@ class Game extends React.Component {
     this.setState(state => {
       return { stage: state.stage + 1, roundScore: 0 }
     });
-    this._updatePage("chooseRoom");
+    if (this.state.stage < 5) {
+      this._updatePage("chooseRoom");
+    } else {
+      this._updatePage("end")
+    }
   }
 
   render() {
@@ -112,7 +120,7 @@ class Game extends React.Component {
         {this.state.page === "intro" ?
           <Intro
             nextPage={this.beginGame}
-            setName={this.setName}
+            setName={this.saveText}
             validData={this.validData}
             name={this.state.name} /> : ""}
         {this.state.page === "chooseRoom" ?
@@ -125,14 +133,20 @@ class Game extends React.Component {
             action={this.state.history[this.state.history.length - 1]}
             score={this.state.roundScore}
             roundScore={this.state.roundScore}
-            nextPage={this.getRobotAction} /> : ""}
+            nextPage={this.getRobotAction}
+            saveText={this.saveText}  /> : ""}
         {this.state.page === "robotVideo" ?
           <RobotVideo
             stage={this.state.stage}
             action={this.state.history[this.state.history.length - 1]}
             score={this.state.roundScore}
             roundScore={this.state.roundScore}
-            nextPage={this.incrementStage} /> : ""}
+            nextPage={this.incrementStage}
+            saveText={this.saveText}  /> : ""}
+        {this.state.page === 'end' ? 
+          <End
+            totalScore={this.state.score}
+            saveText={this.saveText} /> : ""}
       </div>
     );
   }
