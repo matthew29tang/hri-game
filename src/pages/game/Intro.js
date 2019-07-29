@@ -23,7 +23,6 @@ const styles = theme => ({
   }
 });
 
-
 class Intro extends React.Component {
   constructor() {
     super();
@@ -31,8 +30,6 @@ class Intro extends React.Component {
       name: '',
     }
   }
-
-  
 
   render() {
     const { classes } = this.props;
@@ -43,8 +40,10 @@ class Intro extends React.Component {
         <p>
         By playing this game, you agree to take part in data collection 
         which will keep a record of your score and actions in this game.
-        </p>
         
+        </p>
+        Do not hit the back button in your browser or you will lose your progress.
+        <br/>
         <TextField
           id="outlined-name"
           label="Name"

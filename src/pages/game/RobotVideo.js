@@ -4,7 +4,7 @@ import Divider from '@material-ui/core/Divider';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import YouTubePlayer from 'react-player/lib/players/YouTube'
-import {rewards, rooms} from '../config.js';
+import {rewards, rooms, successes} from '../config.js';
 
 const URL = "https://www.youtube.com/watch?v=FTQbiNvZqaY";
 
@@ -86,10 +86,10 @@ class RobotVideo extends React.Component {
                 Play Video
           </Button> : ""}
       <br/>
-      {this.state.videoDone && this.props.roundScore > 0 ? 
+      {this.state.videoDone && successes[this.props.stage][this.props.action] > 0 ? 
         `The robot succeeded! Your total score is ${this.props.roundScore} point(s). Click continue to play another round with the same robot!` : ""}
-      {this.state.videoDone && this.props.roundScore === 0 ? 
-        `Unfortunately the robot failed the room. Your total score is ${this.props.roundScore} point(s) Click continue to play another round with the same robot!` : ""}  
+      {this.state.videoDone && successes[this.props.stage][this.props.action] === 0 ? 
+        `Unfortunately the robot failed the room. Your total score is ${this.props.roundScore} point(s). Click continue to play another round with the same robot!` : ""}  
       {this.state.videoDone ?
       <div className="buttons">
         <Button variant="contained" color="primary" className={classes.button} onClick={() => this.player.seekTo(0, "seconds")}>

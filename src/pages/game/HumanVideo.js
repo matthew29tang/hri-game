@@ -4,7 +4,7 @@ import Divider from '@material-ui/core/Divider';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import YouTubePlayer from 'react-player/lib/players/YouTube'
-import { rewards, rooms } from '../config.js';
+import { rewards, rooms, successes } from '../config.js';
 
 const URL = "https://www.youtube.com/watch?v=LDU_Txk06tM";
 
@@ -105,9 +105,9 @@ class HumanVideo extends React.Component {
             Submit &amp; Play
           </Button> : ""}
         <br />
-        {this.state.videoDone && this.props.roundScore > 0 ?
+        {this.state.videoDone && successes[this.props.stage][this.props.action] > 0 ?
           `Congrats! You have won ${this.props.roundScore} point(s). Click continue to see what the robot will choose!` : ""}
-        {this.state.videoDone && this.props.roundScore === 0 ?
+        {this.state.videoDone && successes[this.props.stage][this.props.action] === 0  ?
           `Unfortunately the robot failed the room. You scored 0 points. Click continue to see what the robot will choose!` : ""}
         {this.state.videoDone ?
           <div className="buttons">

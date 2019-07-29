@@ -7,8 +7,10 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
 
-import Routing from './Routing.js';
+import Game from './game/Game.js';
 import styles from './navBarStyles.js'
 
 
@@ -33,23 +35,22 @@ class NavBar extends React.Component {
               className={classes.title}
             >
               HRI Game
-              {/*<Router>
-                <NavLink activeClassName="active" className="link" to={"/"} type="menu">
-                  HRI Game
-              </NavLink>
-              </Router>*/}
             </Typography>
-            {/*<Router>
-              <NavLink activeClassName="active" className="link" to={"/about/"} type="menu">
-                <Button color="inherit">About</Button>
-              </NavLink>
-            </Router>
-            */}
           </Toolbar>
         </AppBar>
         <main className={classes.content}>
           <div className={classes.appBarSpacer} />
-          <Routing />
+          <Grid
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justify="center"
+          >
+            <Box width="75%" maxWidth={1000}>
+              <Game />
+            </Box>
+          </Grid>
         </main>
       </div>
     );

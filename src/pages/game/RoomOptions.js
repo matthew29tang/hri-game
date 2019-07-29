@@ -66,6 +66,8 @@ class RoomOptions extends React.Component {
         <Divider />
         <br />
           Choose a room for the robot to do by clicking a button. Hover over a room diagram to enlarge.
+          {this.props.stage > 1 ? 
+            <div><br /> Scroll down to see a history of the past actions.</div> : ""}
           <br/>
           <br/>
         </div>
