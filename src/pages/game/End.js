@@ -111,6 +111,7 @@ class End extends React.Component {
                 variant="outlined"
               />
             </div>
+            <br />
             <div className={classes.textBox}>
               <div className={classes.textBoxHeader}>
               Do you feel that you and Denise would score more points if you tried again?
@@ -122,7 +123,7 @@ class End extends React.Component {
                 fullWidth
                 rows="6"
                 rowsMax="20"
-                onChange={this.props.saveText("D3")}
+                onChange={this.props.saveText("D4")}
                 className={classes.textField}
                 margin="normal"
                 variant="outlined"
@@ -158,7 +159,7 @@ class End extends React.Component {
                 fullWidth
                 rows="6"
                 rowsMax="20"
-                onChange={this.props.saveText("D4")}
+                onChange={this.props.saveText("D5")}
                 className={classes.textField}
                 margin="normal"
                 variant="outlined"
