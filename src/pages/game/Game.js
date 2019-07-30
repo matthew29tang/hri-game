@@ -47,6 +47,7 @@ class Game extends React.Component {
 
   // Send data to backend server to push to excel spreadsheet
   _sendData = (route) => {
+    var today = new Date();
     fetch(baseURL + route, {
       method: 'POST',
       headers: {
@@ -57,6 +58,7 @@ class Game extends React.Component {
         Name: this.state.name || "no name",
         ID: this.state.id || "no id",
         FirstTime: this.state.valid,
+        Date: (today.getMonth()+1)+'-'+today.getDate() +'-'+ today.getFullYear() + " " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
         History: this.state.history.join("_") || "no history",
         TotalScore: this.state.score || "no total score",
         H0: this.state.H0 || "",
@@ -73,6 +75,7 @@ class Game extends React.Component {
         D2: this.state.D2 || "",
         D3: this.state.D3 || "",
         D4: this.state.D4 || "",
+        D5: this.state.D5 || "",
         A1: this.state.A1 || 4,
         A2: this.state.A2 || 4,
         A3: this.state.A3 || 4,
