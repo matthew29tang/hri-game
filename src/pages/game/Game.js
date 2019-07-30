@@ -10,7 +10,7 @@ import RobotVideo from './RobotVideo.js';
 import End from './End.js';
 import History from './History.js';
 
-const baseURL = "http://hri-game-backend.herokuapp.com"
+const baseURL = "https://hri-game-backend.herokuapp.com"
 const styles = theme => ({
   card: {
     minWidth: 275,
@@ -66,6 +66,7 @@ class Game extends React.Component {
         R2: this.state.R2 || "",
         R3: this.state.R3 || "",
         R4: this.state.R4 || "",
+        D1: this.state.debrief1 || "",
       }),
     })
     console.log("Data pushed")
@@ -170,7 +171,8 @@ class Game extends React.Component {
               score={this.state.roundScore}
               roundScore={this.state.roundScore}
               nextPage={this.getRobotAction}
-              saveText={this.saveText} /> : ""}
+              saveText={this.saveText}
+              valid={this.state.valid} /> : ""}
           {this.state.page === "robotVideo" ?
             <RobotVideo
               stage={this.state.stage}
@@ -178,11 +180,13 @@ class Game extends React.Component {
               score={this.state.roundScore}
               roundScore={this.state.roundScore}
               nextPage={this.incrementStage}
-              saveText={this.saveText} /> : ""}
+              saveText={this.saveText}
+              valid={this.state.valid} /> : ""}
           {this.state.page === "end" ?
             <End
               totalScore={this.state.score}
-              saveText={this.saveText} /> : ""}
+              saveText={this.saveText}
+              sendData={() => this._sendData("/complete")} /> : ""}
         </Paper>
         <br />
         {this.state.page === "chooseRoom" && this.state.history.length > 0 ?

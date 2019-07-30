@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
+import { rewards } from '../config.js';
 
 const styles = theme => ({
   card: {
@@ -21,12 +22,17 @@ const styles = theme => ({
     padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary,
+    paddingBottom: 6,
   },
   room: {
     width: '100%'
   },
   preview: {
-    width: '50%'
+    width: '60%'
+  },
+  bodyText: {
+    color: "black",
+    paddingBottom: 0,
   }
 });
 
@@ -66,7 +72,7 @@ class RoomOptions extends React.Component {
         <Divider />
         <br />
           Choose a room for the robot to do by clicking a button. Hover over a room diagram to enlarge.
-          {this.props.stage > 1 ? 
+          {this.props.stage > 0 ? 
             <div><br /> Scroll down to see a history of the past actions.</div> : ""}
           <br/>
           <br/>
@@ -83,6 +89,9 @@ class RoomOptions extends React.Component {
             <Paper className={classes.paper}>
               <img className={classes.room} src={this.images[room[0]]} alt={room[1]}
                 onMouseOver={() => this.updatePreview(room[0])}/>
+                <div className={classes.bodyText}>
+                  Reward: {rewards[this.props.stage][i]}pts
+                </div>
             </Paper>
             <br/>
             <Button variant="contained" color="primary" className={classes.button}

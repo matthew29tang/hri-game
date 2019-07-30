@@ -4,9 +4,7 @@ import Divider from '@material-ui/core/Divider';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import YouTubePlayer from 'react-player/lib/players/YouTube'
-import { rewards, rooms, successes } from '../config.js';
-
-const URL = "https://www.youtube.com/watch?v=LDU_Txk06tM";
+import { rewards, rooms, successes, videos } from '../config.js';
 
 const styles = theme => ({
   card: {
@@ -23,11 +21,13 @@ const styles = theme => ({
   button: {
     margin: theme.spacing(1) * 2,
   },
-  body: {
-    fontWeight: 'bold',
-    fontSize: 16,
+  textBox: {
     paddingLeft: 70,
     paddingRight: 70,
+  },
+  textBoxHeader: {
+    fontWeight: 'bold',
+    fontSize: 16,
   }
 });
 
@@ -49,7 +49,7 @@ class HumanVideo extends React.Component {
 
   updateState = (req, data) => {
     this.setState(state => {
-      const vid = state.playtime > 0.99 || state.videoDone
+      const vid = state.playtime > 0.90 || state.videoDone
       return { [req]: data.played, videoDone: vid }
     });
   }
@@ -62,12 +62,14 @@ class HumanVideo extends React.Component {
         <h1> Your choice</h1>
         <Divider />
         <br />
-        The robot received your command to attempt {rooms[this.props.action]} worth {parseInt(rewards[this.props.stage][this.props.action])} points.
+        The robot received your command to attempt {rooms[this.props.action]} worth {rewards[this.props.stage][this.props.action]} points.
         <br />
         <br />
         {!this.state.playing ?
-          <div className={classes.body}>
-            Please explain why you chose {rooms[this.props.action]} for the robot to attempt.
+          <div className={classes.textBox}>
+            <div className={classes.textBoxHeader}>
+              Please explain why you chose {rooms[this.props.action]} for the robot to attempt.
+            </div>
             <TextField
               id="outlined-multiline-flexible"
               label="Explanation"
@@ -90,9 +92,9 @@ class HumanVideo extends React.Component {
             <center>
               <YouTubePlayer
                 className='react-player'
-                url={URL}
+                url={videos[this.props.stage][this.props.action]}
                 playing={this.state.playing}
-                controls
+                controls={!this.props.valid}
                 onProgress={(time) => this.updateState("playtime", time)}
                 ref={player => {
                   this.player = player;
@@ -107,7 +109,7 @@ class HumanVideo extends React.Component {
         <br />
         {this.state.videoDone && successes[this.props.stage][this.props.action] > 0 ?
           `Congrats! You have won ${this.props.roundScore} point(s). Click continue to see what the robot will choose!` : ""}
-        {this.state.videoDone && successes[this.props.stage][this.props.action] === 0  ?
+        {this.state.videoDone && successes[this.props.stage][this.props.action] === 0 ?
           `Unfortunately the robot failed the room. You scored 0 points. Click continue to see what the robot will choose!` : ""}
         {this.state.videoDone ?
           <div className="buttons">

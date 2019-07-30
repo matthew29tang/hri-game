@@ -35,6 +35,7 @@ class End extends React.Component {
 
   submit = () => {
     this.setState({ submitted: true });
+    this.props.sendData();
   }
 
   render() {
@@ -65,7 +66,7 @@ class End extends React.Component {
               variant="outlined"
             />
           </div>
-          <Button variant="contained" color="primary" className={classes.button} onClick={() => this.setState({ submitted: true })}>
+          <Button variant="contained" color="primary" className={classes.button} onClick={this.submit}>
             Submit
             </Button>
           <br />

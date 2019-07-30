@@ -29,3 +29,6 @@ a:visited[type=menu] {
 .link:hover {
    color: rgb(75, 75, 75)
 }
+h1 {
+  margin-top: 0px;
+}
