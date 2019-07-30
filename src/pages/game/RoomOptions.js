@@ -2,8 +2,9 @@ import React from 'react';
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
+import { withStyles } from '@material-ui/core/styles';
+
 import { rewards } from '../config.js';
 
 const styles = theme => ({
