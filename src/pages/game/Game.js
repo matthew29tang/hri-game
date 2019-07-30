@@ -73,12 +73,12 @@ class Game extends React.Component {
         D2: this.state.D2 || "",
         D3: this.state.D3 || "",
         D4: this.state.D4 || "",
-        A1: this.state.A1 || "",
-        A2: this.state.A2 || "",
-        A3: this.state.A3 || "",
-        A4: this.state.A4 || "",
-        A5: this.state.A5 || "",
-        A6: this.state.A6 || "",
+        A1: this.state.A1 || 4,
+        A2: this.state.A2 || 4,
+        A3: this.state.A3 || 4,
+        A4: this.state.A4 || 4,
+        A5: this.state.A5 || 4,
+        A6: this.state.A6 || 4,
       }),
     })
     console.log("Data pushed");

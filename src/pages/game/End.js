@@ -112,7 +112,7 @@ class End extends React.Component {
               />
             </div>
             <MuiSlider 
-              question="Denise is able to understand audio directions"
+              question="Denise is able to understand audio commands"
               onChange={this.props.saveSlider("A1")}/>
             <MuiSlider 
               question="Denise is able to detect colors"
