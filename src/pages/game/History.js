@@ -56,7 +56,7 @@ class History extends React.Component {
               <Paper className={classes.paper}>
                 <img className={classes.room} src={img} alt={String(i % 4)} />
                 <div className={classes.bodyText}>
-                  {i % 2 === 0 ? "Human - " : "Robot - "}
+                  {i % 2 === 0 ? "You - " : "Denise - "}
                   {successes[Math.floor(i / 2)][this.props.history[i]] === 1 ? 
                     "Success (+" + rewards[Math.floor(i / 2)][this.props.history[i]] + "pts)" : 
                     "Failure (+0 pts)"}

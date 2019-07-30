@@ -111,23 +111,40 @@ class End extends React.Component {
                 variant="outlined"
               />
             </div>
+            <div className={classes.textBox}>
+              <div className={classes.textBoxHeader}>
+              Do you feel that you and Denise would score more points if you tried again?
+              </div>
+              <TextField
+                id="outlined-multiline-flexible"
+                label="Response"
+                multiline
+                fullWidth
+                rows="6"
+                rowsMax="20"
+                onChange={this.props.saveText("D3")}
+                className={classes.textField}
+                margin="normal"
+                variant="outlined"
+              />
+            </div>
             <MuiSlider 
-              question="Denise is able to understand audio commands"
+              question="Denise is able to understand audio commands."
               onChange={this.props.saveSlider("A1")}/>
             <MuiSlider 
-              question="Denise is able to detect colors"
+              question="Denise is able to recognize colors."
               onChange={this.props.saveSlider("A2")}/>
             <MuiSlider 
-              question="Denise is able to detect faces"
+              question="Denise is able to recognize faces."
               onChange={this.props.saveSlider("A3")}/>
             <MuiSlider 
-              question="Denise is able to detect objects"
+              question="Denise is able to recognize objects."
               onChange={this.props.saveSlider("A4")}/>
             <MuiSlider 
-              question="Denise is able to locate the origin of a noise"
+              question="Denise is able to locate the origin of a noise."
               onChange={this.props.saveSlider("A5")}/>
             <MuiSlider 
-              question="Denise is able to navigate in the dark"
+              question="Denise is able to navigate in the dark."
               onChange={this.props.saveSlider("A6")}/>
             <br />
             <div className={classes.textBox}>
