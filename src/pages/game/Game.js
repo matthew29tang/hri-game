@@ -1,6 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 
 import { rewards, successes, robot_actions } from '../config.js'
 import Intro from './Intro.js';
@@ -39,6 +40,8 @@ class Game extends React.Component {
       score: 0,
       page: 'intro',
       roundScore: 0,
+      showHistory: false,
+      complete: false,
     }
   }
 
@@ -66,10 +69,22 @@ class Game extends React.Component {
         R2: this.state.R2 || "",
         R3: this.state.R3 || "",
         R4: this.state.R4 || "",
-        D1: this.state.debrief1 || "",
+        D1: this.state.D1 || "",
+        D2: this.state.D2 || "",
+        D3: this.state.D3 || "",
+        D4: this.state.D4 || "",
+        A1: this.state.A1 || "",
+        A2: this.state.A2 || "",
+        A3: this.state.A3 || "",
+        A4: this.state.A4 || "",
+        A5: this.state.A5 || "",
+        A6: this.state.A6 || "",
       }),
     })
-    console.log("Data pushed")
+    console.log("Data pushed");
+    if (route === "/complete") {
+      this.setState({complete: true, showHistory: false})
+    }
   }
 
   // Add human/robot moves to history
@@ -114,6 +129,10 @@ class Game extends React.Component {
     this.setState({ [name]: event.target.value });
   };
 
+  saveSlider = name => (event, newValue) => {
+    this.setState({ [name]: newValue });
+  };
+
   validData = () => {
     this.setState(state => {
       const validData = !state.valid
@@ -126,6 +145,7 @@ class Game extends React.Component {
     this._updateScore(room, "human");
     this._updateHistory(room);
     this._updatePage("humanVideo");
+    this.setState({showHistory: false})
   }
 
   // Human action video --> Robot action video
@@ -141,12 +161,14 @@ class Game extends React.Component {
   incrementStage = () => {
     this.setState(state => {
       return { stage: state.stage + 1, roundScore: 0 }
+    }, () => {
+      if (this.state.stage < 5) {
+        this._updatePage("chooseRoom");
+      } else {
+        this._updatePage("end")
+      }
     });
-    if (this.state.stage < 5) {
-      this._updatePage("chooseRoom");
-    } else {
-      this._updatePage("end")
-    }
+    
   }
 
   render() {
@@ -163,7 +185,8 @@ class Game extends React.Component {
           {this.state.page === "chooseRoom" ?
             <RoomOptions
               stage={this.state.stage}
-              nextPage={this.chooseRoom} /> : ""}
+              nextPage={this.chooseRoom}
+              score={this.state.score} /> : ""}
           {this.state.page === "humanVideo" ?
             <HumanVideo
               stage={this.state.stage}
@@ -186,10 +209,17 @@ class Game extends React.Component {
             <End
               totalScore={this.state.score}
               saveText={this.saveText}
-              sendData={() => this._sendData("/complete")} /> : ""}
+              sendData={() => this._sendData("/complete")}
+              saveSlider={this.saveSlider} /> : ""}
         </Paper>
         <br />
-        {this.state.page === "chooseRoom" && this.state.history.length > 0 ?
+        {(this.state.page === "chooseRoom" && this.state.history.length > 0) || (this.state.page === "end" && !this.state.complete)?
+          <Button variant="contained" color="primary" className={classes.button} onClick={() => this.setState(state => {return {showHistory: !state.showHistory}})}>
+          Show history
+          </Button> : ""}
+        <br />
+        <br />
+        {this.state.showHistory ?
           <Paper className={classes.paper}>
             <History
               history={this.state.history}

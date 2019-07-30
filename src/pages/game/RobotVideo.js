@@ -48,9 +48,9 @@ class RobotVideo extends React.Component {
   }
 
   updateState = (req, data) => {
-    this.setState(state => {
-      const vid = state.playtime > 0.90 || state.videoDone
-      return { [req]: data.played, videoDone: vid }
+    this.setState({[req]: data.played}, () => {
+        const vid = this.state.playtime > 0.99 || this.state.videoDone || !this.props.valid
+        this.setState({ videoDone: vid })
     });
   }
 
@@ -62,16 +62,20 @@ class RobotVideo extends React.Component {
         <h1> Robot's choice</h1>
         <Divider />
         <br />
-        The robot has chosen to attempt {rooms[this.props.action]} worth {rewards[this.props.stage][this.props.action]} points.
-        Click the button to see the results.
-        <br />
-        <br />
+        {!this.state.playing && !this.state.videoDone ?
+          <div>
+            Denise has chosen to attempt {rooms[this.props.action]} worth {rewards[this.props.stage][this.props.action]} points.
+            <img src={require(`../../img/Room${this.props.stage * 4 + this.props.action}.PNG`)} width="70%" alt="robotRoom"/>
+            <br />
+            Click the button to see the results.
+            <br />
+          </div> : ""}
         {this.state.playing ?
           <div className="player-wrapper">
             <center>
               <YouTubePlayer
                 className='react-player'
-                url={videos[this.props.stage][this.props.action]}
+                url={videos[this.props.stage] ? videos[this.props.stage][this.props.action] : ""}
                 playing={this.state.playing}
                 controls={!this.props.valid}
                 onProgress={(time) => this.updateState("playtime", time)}
@@ -86,10 +90,10 @@ class RobotVideo extends React.Component {
             Play Video
           </Button> : ""}
         <br />
-        {this.state.videoDone && successes[this.props.stage][this.props.action] > 0 ?
-          `The robot succeeded! Your total score is ${this.props.roundScore} point(s). Click continue to play another round with the same robot!` : ""}
-        {this.state.videoDone && successes[this.props.stage][this.props.action] === 0 ?
-          `Unfortunately the robot failed the room. Your total score is ${this.props.roundScore} point(s). Click continue to play another round with the same robot!` : ""}
+        {this.state.videoDone && successes[this.props.stage] && successes[this.props.stage][this.props.action] > 0 ?
+          `Denise succeeded! Your total score this round is ${this.props.roundScore} point(s).` : ""}
+        {this.state.videoDone && successes[this.props.stage] && successes[this.props.stage][this.props.action] === 0 ?
+          `Unfortunately Denise failed the room. Your total score this round is ${this.props.roundScore} point(s).` : ""}
         {this.state.videoDone ?
           <div className="buttons">
             <Button variant="contained" color="primary" className={classes.button} onClick={() => this.player.seekTo(0, "seconds")}>
@@ -108,7 +112,7 @@ class RobotVideo extends React.Component {
           </div>
             <TextField
               id="outlined-multiline-flexible"
-              label="Explanation"
+              label="Response"
               multiline
               fullWidth
               rows="6"
@@ -121,7 +125,7 @@ class RobotVideo extends React.Component {
           </div> : ""}
         {this.state.videoDone ?
           <div>
-            Click the button to submit your response and play again.
+            Click the button to submit your response and continue to the next round.
             <br />
             <Button variant="contained" color="primary" className={classes.button} onClick={this.props.nextPage}>
               Submit &amp; Continue

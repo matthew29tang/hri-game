@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
+import MuiSlider from './MuiSlider.js'
 
 const styles = theme => ({
   card: {
@@ -19,11 +20,13 @@ const styles = theme => ({
   button: {
     margin: theme.spacing(1) * 2,
   },
-  body: {
-    fontWeight: 'bold',
-    fontSize: 16,
+  textBox: {
     paddingLeft: 70,
     paddingRight: 70,
+  },
+  textBoxHeader: {
+    fontWeight: 'bold',
+    fontSize: 16,
   }
 });
 
@@ -43,34 +46,115 @@ class End extends React.Component {
 
     return (
       <div className="debrief">
-      {!this.state.submitted ?
-        <div className="questions">
-          <h1>Debrief</h1>
-          <Divider />
-          <br />
-          Over the course of 5 rounds, you and the robot scored {this.props.totalScore} points!
-          <br />
-          <br />
-          <div className={classes.body}>
-            Please explain.
+        {!this.state.submitted ?
+          <div className="questions">
+            <h1>Wrap Up</h1>
+            <Divider />
+            <br />
+            Thanks so much for representing the lab! You and Denise made a great team.
+            <br /><br />
+            Over the course of 5 rounds, you and the robot scored {this.props.totalScore} points!
+            <br />
+            <br />
+            <div className={classes.textBox}>
+              <div className={classes.textBoxHeader}>
+              What do you think of Denise as a teammate? (honest opinions here - we won't tell Denise!)
+              <br/>
+              Would you have preferred to work with a different version of Denise?
+              </div>
               <TextField
-              id="outlined-multiline-flexible"
-              label="Explanation"
-              multiline
-              fullWidth
-              rows="6"
-              rowsMax="20"
-              onChange={this.props.saveText("debrief1")}
-              className={classes.textField}
-              margin="normal"
-              variant="outlined"
-            />
-          </div>
-          <Button variant="contained" color="primary" className={classes.button} onClick={this.submit}>
-            Submit
+                id="outlined-multiline-flexible"
+                label="Response"
+                multiline
+                fullWidth
+                rows="6"
+                rowsMax="20"
+                onChange={this.props.saveText("D1")}
+                className={classes.textField}
+                margin="normal"
+                variant="outlined"
+              />
+            </div>
+            <br />
+            <div className={classes.textBox}>
+              <div className={classes.textBoxHeader}>
+              How did your thoughts about Denise change throughout the game?
+              </div> 
+              <TextField
+                id="outlined-multiline-flexible"
+                label="Response"
+                multiline
+                fullWidth
+                rows="6"
+                rowsMax="20"
+                onChange={this.props.saveText("D2")}
+                className={classes.textField}
+                margin="normal"
+                variant="outlined"
+              />
+            </div>
+            <br />
+            <div className={classes.textBox}>
+              <div className={classes.textBoxHeader}>
+              Do you feel that Denise chose rooms with a consistent strategy throughout the game?
+              </div>
+              <TextField
+                id="outlined-multiline-flexible"
+                label="Response"
+                multiline
+                fullWidth
+                rows="6"
+                rowsMax="20"
+                onChange={this.props.saveText("D3")}
+                className={classes.textField}
+                margin="normal"
+                variant="outlined"
+              />
+            </div>
+            <MuiSlider 
+              question="Denise is able to understand audio directions"
+              onChange={this.props.saveSlider("A1")}/>
+            <MuiSlider 
+              question="Denise is able to detect colors"
+              onChange={this.props.saveSlider("A2")}/>
+            <MuiSlider 
+              question="Denise is able to detect faces"
+              onChange={this.props.saveSlider("A3")}/>
+            <MuiSlider 
+              question="Denise is able to detect objects"
+              onChange={this.props.saveSlider("A4")}/>
+            <MuiSlider 
+              question="Denise is able to locate the origin of a noise"
+              onChange={this.props.saveSlider("A5")}/>
+            <MuiSlider 
+              question="Denise is able to navigate in the dark"
+              onChange={this.props.saveSlider("A6")}/>
+            <br />
+            <div className={classes.textBox}>
+              <div className={classes.textBoxHeader}>
+              Did you find the game particularly engaging or tedious? What would have made the game more enjoyable?
+              </div>
+              <TextField
+                id="outlined-multiline-flexible"
+                label="Response"
+                multiline
+                fullWidth
+                rows="6"
+                rowsMax="20"
+                onChange={this.props.saveText("D4")}
+                className={classes.textField}
+                margin="normal"
+                variant="outlined"
+              />
+            </div>
+            <Button variant="contained" color="primary" className={classes.button} onClick={this.submit}>
+              Submit
             </Button>
-          <br />
-          </div> : <h2>Thank you for taking the time to play our game!</h2> }
+            <br />
+          </div> : 
+          <div>
+          <h2>Thank you for taking the time to play our game!</h2>
+          <h2> Your input is extremely valuable for us as we continue testing and development.</h2></div>}
       </div>
     );
   }

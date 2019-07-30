@@ -34,7 +34,7 @@ class NavBar extends React.Component {
               noWrap
               className={classes.title}
             >
-              HRI Game
+              Robot Olympics
             </Typography>
           </Toolbar>
         </AppBar>

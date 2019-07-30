@@ -16,7 +16,7 @@ const styles = theme => ({
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    alignItems: 'flex-start' 
+    alignItems: 'flex-start'
   },
   paper: {
     padding: theme.spacing(2),
@@ -68,37 +68,45 @@ class RoomOptions extends React.Component {
     return (
       <div className="Rooms">
         <div className={classes.header}>
-        <h1>Room Selection</h1>
-        <Divider />
-        <br />
-          Choose a room for the robot to do by clicking a button. Hover over a room diagram to enlarge.
-          {this.props.stage > 0 ? 
-            <div><br /> Scroll down to see a history of the past actions.</div> : ""}
-          <br/>
-          <br/>
+          <h1>Room Selection</h1>
+          <Divider />
+          <br />
+          {this.props.stage === 0 ?
+            <div>
+              Feel free to take a look at each of the rooms below.
+              Once you’ve decided which room Denise you’d like Denise to attempt, click on that room.
+              <br/>
+              Remember, you only get to choose one of these rooms.
+              Hover over a room diagram to enlarge.
+              <br />
+            </div> : <div>
+              Your team has {this.props.score} points so far! Time to choose another room for Denise to try. Feel free to check out the history if you need a reminder.
+              <br /> Scroll down to see a history of the past actions.
+            </div>}
+          <br />
         </div>
 
         <Paper className={classes.paper}>
-          <img className={classes.preview} src={this.images[this.state.preview]} alt="Enlarged"/>
+          <img className={classes.preview} src={this.images[this.state.preview]} alt="Enlarged" />
         </Paper>
-        <br/>
-        
+        <br />
+
         <Grid container spacing={3}>
           {this.rooms.map((room, i) => (
-          <Grid item xs={3} key={i}>
-            <Paper className={classes.paper}>
-              <img className={classes.room} src={this.images[room[0]]} alt={room[1]}
-                onMouseOver={() => this.updatePreview(room[0])}/>
+            <Grid item xs={3} key={i}>
+              <Paper className={classes.paper}>
+                <img className={classes.room} src={this.images[room[0]]} alt={room[1]}
+                  onMouseOver={() => this.updatePreview(room[0])} />
                 <div className={classes.bodyText}>
                   Reward: {rewards[this.props.stage][i]}pts
                 </div>
-            </Paper>
-            <br/>
-            <Button variant="contained" color="primary" className={classes.button}
-              onClick={() => this.props.nextPage(room[0])}>
-              {room[1]}
-            </Button>
-          </Grid>
+              </Paper>
+              <br />
+              <Button variant="contained" color="primary" className={classes.button}
+                onClick={() => this.props.nextPage(room[0])}>
+                {room[1]}
+              </Button>
+            </Grid>
           ))}
         </Grid>
       </div>

@@ -48,9 +48,9 @@ class HumanVideo extends React.Component {
   }
 
   updateState = (req, data) => {
-    this.setState(state => {
-      const vid = state.playtime > 0.90 || state.videoDone
-      return { [req]: data.played, videoDone: vid }
+    this.setState({[req]: data.played}, () => {
+        const vid = this.state.playtime > 0.99 || this.state.videoDone || !this.props.valid
+        this.setState({ videoDone: vid })
     });
   }
 
@@ -62,7 +62,7 @@ class HumanVideo extends React.Component {
         <h1> Your choice</h1>
         <Divider />
         <br />
-        The robot received your command to attempt {rooms[this.props.action]} worth {rewards[this.props.stage][this.props.action]} points.
+        Denise received your command to attempt {rooms[this.props.action]} worth {rewards[this.props.stage][this.props.action]} points.
         <br />
         <br />
         {!this.state.playing ?
@@ -72,7 +72,7 @@ class HumanVideo extends React.Component {
             </div>
             <TextField
               id="outlined-multiline-flexible"
-              label="Explanation"
+              label="Response"
               multiline
               fullWidth
               rows="6"
@@ -92,7 +92,7 @@ class HumanVideo extends React.Component {
             <center>
               <YouTubePlayer
                 className='react-player'
-                url={videos[this.props.stage][this.props.action]}
+                url={videos[this.props.stage] ? videos[this.props.stage][this.props.action] : ""}
                 playing={this.state.playing}
                 controls={!this.props.valid}
                 onProgress={(time) => this.updateState("playtime", time)}
@@ -108,9 +108,9 @@ class HumanVideo extends React.Component {
           </Button> : ""}
         <br />
         {this.state.videoDone && successes[this.props.stage][this.props.action] > 0 ?
-          `Congrats! You have won ${this.props.roundScore} point(s). Click continue to see what the robot will choose!` : ""}
+          `Congrats! You have won ${this.props.roundScore} point(s). Click continue to see which room Denise will choose!` : ""}
         {this.state.videoDone && successes[this.props.stage][this.props.action] === 0 ?
-          `Unfortunately the robot failed the room. You scored 0 points. Click continue to see what the robot will choose!` : ""}
+          `Unfortunately, Denise failed the room, so the team earned 0 points. Now, Denise will choose a room to attempt!` : ""}
         {this.state.videoDone ?
           <div className="buttons">
             <Button variant="contained" color="primary" className={classes.button} onClick={() => this.player.seekTo(0, "seconds")}>
