@@ -82,6 +82,7 @@ class Game extends React.Component {
         A4: this.state.A4 || 4,
         A5: this.state.A5 || 4,
         A6: this.state.A6 || 4,
+        SiteVersion: 1.1
       }),
     })
     console.log("Data pushed");
