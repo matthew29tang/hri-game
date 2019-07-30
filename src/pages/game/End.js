@@ -53,7 +53,7 @@ class End extends React.Component {
             <br />
             Thanks so much for representing the lab! You and Denise made a great team.
             <br /><br />
-            Over the course of 5 rounds, you and the robot scored {this.props.totalScore} points!
+            Over the course of 5 rounds, your team  scored {this.props.totalScore} points!
             <br />
             <br />
             <div className={classes.textBox}>

@@ -93,7 +93,7 @@ class RobotVideo extends React.Component {
         {this.state.videoDone && successes[this.props.stage] && successes[this.props.stage][this.props.action] > 0 ?
           `Denise succeeded! Your total score this round is ${this.props.roundScore} point(s).` : ""}
         {this.state.videoDone && successes[this.props.stage] && successes[this.props.stage][this.props.action] === 0 ?
-          `Unfortunately Denise failed the room. Your total score this round is ${this.props.roundScore} point(s).` : ""}
+          `Unfortunately, Denise failed this challenge. Your total score this round is still ${this.props.roundScore} point(s).` : ""}
         {this.state.videoDone ?
           <div className="buttons">
             <Button variant="contained" color="primary" className={classes.button} onClick={() => this.player.seekTo(0, "seconds")}>
@@ -106,9 +106,9 @@ class RobotVideo extends React.Component {
         {this.state.videoDone ?
           <div className={classes.textBox}>
             <div className={classes.textBoxHeader}>
-              Do you think {rooms[this.props.action]} was a good or bad choice for the robot to attempt?
+              Do you think {rooms[this.props.action]} was a good or bad choice for Denise to attempt?
             <br />
-              What do you think the robot's strategy is?
+              What do you think Denise's strategy is?
           </div>
             <TextField
               id="outlined-multiline-flexible"

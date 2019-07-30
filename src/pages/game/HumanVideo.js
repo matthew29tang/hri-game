@@ -68,7 +68,7 @@ class HumanVideo extends React.Component {
         {!this.state.playing ?
           <div className={classes.textBox}>
             <div className={classes.textBoxHeader}>
-              Please explain why you chose {rooms[this.props.action]} for the robot to attempt.
+              Please explain why you chose {rooms[this.props.action]} for Denise to attempt.
             </div>
             <TextField
               id="outlined-multiline-flexible"
@@ -110,7 +110,7 @@ class HumanVideo extends React.Component {
         {this.state.videoDone && successes[this.props.stage][this.props.action] > 0 ?
           `Congrats! You have won ${this.props.roundScore} point(s). Click continue to see which room Denise will choose!` : ""}
         {this.state.videoDone && successes[this.props.stage][this.props.action] === 0 ?
-          `Unfortunately, Denise failed the room, so the team earned 0 points. Now, Denise will choose a room to attempt!` : ""}
+          `Unfortunately, Denise failed this challenge, so the team earned 0 points. Now, Denise will choose a room to attempt!` : ""}
         {this.state.videoDone ?
           <div className="buttons">
             <Button variant="contained" color="primary" className={classes.button} onClick={() => this.player.seekTo(0, "seconds")}>

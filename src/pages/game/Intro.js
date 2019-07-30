@@ -63,7 +63,7 @@ class Intro extends React.Component {
             <br/>
             Denise comes in a few flavors, each with its own strategy and capabilities. 
             <br/>
-            We don’t know what version you’ll be working with, but we’re sure that you’re going to do great
+            We don’t know what version you’ll be working with, but we’re sure that you’re going to do great.
             </div> : ""}
         {this.state.screen === 2 ?
           <div>
@@ -71,11 +71,11 @@ class Intro extends React.Component {
           The Olympics work in two stages. 
           Your team will be shown a few different challenges for Denise to attempt. 
           <br/>
-          Each challenge, if completed successfully, will win a specified number of points for your teams. 
+          Each challenge, if completed successfully, will win a specified number of points for your team. 
           Failed attempts earn zero points.
           <br/><br/> 
           When you’re ready, we’ll show you the different challenges. 
-          But first, let us know what your name is and if it's your first time playing!
+          But first, let us know what your name is and whether it's your first time playing!
           
           </p>
           Please do not hit the back button in your browser or you will lose your progress!
