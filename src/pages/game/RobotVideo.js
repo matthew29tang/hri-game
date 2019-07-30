@@ -59,7 +59,7 @@ class RobotVideo extends React.Component {
 
     return (
       <div className="RobotVideo">
-        <h1> Robot's choice</h1>
+        <h1> Denise's choice</h1>
         <Divider />
         <br />
         {!this.state.playing && !this.state.videoDone ?
@@ -108,7 +108,7 @@ class RobotVideo extends React.Component {
             <div className={classes.textBoxHeader}>
               Do you think {rooms[this.props.action]} was a good or bad choice for Denise to attempt?
             <br />
-              What do you think Denise's strategy is?
+              What do you think Denise's strategy is? Do you trust her?
           </div>
             <TextField
               id="outlined-multiline-flexible"

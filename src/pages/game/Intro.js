@@ -61,7 +61,9 @@ class Intro extends React.Component {
             <br/>
             <img src={require(`../../img/robot_olympics.png`)} width="80%" alt="robot_olympics"/>
             <br/>
-            Denise comes in a few flavors, each with its own strategy and capabilities. 
+            Denise comes in a few flavors, each with its own strategy and capabilities.
+            <br/> 
+            <strong>Denise is aware of her own capabilities.</strong>
             <br/>
             We don’t know what version you’ll be working with, but we’re sure that you’re going to do great.
             </div> : ""}
@@ -76,7 +78,6 @@ class Intro extends React.Component {
           <br/><br/> 
           When you’re ready, we’ll show you the different challenges. 
           But first, let us know what your name is and whether it's your first time playing!
-          
           </p>
           Please do not hit the back button in your browser or you will lose your progress!
           <br/>
