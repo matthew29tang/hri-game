@@ -62,7 +62,7 @@ class HumanVideo extends React.Component {
         <h1> Your choice</h1>
         <Divider />
         <br />
-        Denise received your command to attempt {rooms[this.props.action]} worth {rewards[this.props.stage][this.props.action]} points.
+        Denise received your decision to attempt {rooms[this.props.action]} worth {rewards[this.props.stage][this.props.action]} points.
         <br />
         <br />
         {!this.state.playing ?
