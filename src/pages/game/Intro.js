@@ -24,15 +24,28 @@ const styles = theme => ({
 });
 
 class Intro extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       name: '',
       screen: 0,
     }
+    this.checkCookies();
+  }
+
+  checkCookies = () => {
+    if (this.props.cookies.get("started")) {
+      console.log("Game detected.");
+      this.state = {
+        screen: -1
+      }
+    }
   }
 
   nextScreen = () => {
+    if (this.state.screen === -1) {
+      this.props.clearCookies();
+    }
     if (this.state.screen === 2) {
       this.props.nextPage();
     }
@@ -44,6 +57,15 @@ class Intro extends React.Component {
 
     return (
       <div>
+        {this.state.screen === -1 ? 
+          <div>
+            <h2>Welcome back {this.props.cookies.get("name")}</h2>
+            We have detected that you have previously begun a game with Denise on this computer.
+            <img src={require(`../../img/denise.jpg`)} width="80%" alt="Denise"/>
+            <br/>
+            Click continue to load your previous game or start over to begin a new game.
+          </div>
+        : ""}
         {this.state.screen === 0 ? 
           <div>
             Thanks for volunteering to help us test our program! This should take approximately 15-25 minutes. 
@@ -79,7 +101,9 @@ class Intro extends React.Component {
           When you’re ready, we’ll show you the different challenges. 
           But first, let us know what your name is and whether it's your first time playing!
           </p>
-          Please do not hit the back button in your browser or you will lose your progress!
+          <strong>
+          Please do not hit the back button in your browser. Your progress will be saved in your browser cookies if you need to leave in the middle.
+          </strong>
           <br/>
           <TextField
             id="outlined-name"
@@ -104,10 +128,15 @@ class Intro extends React.Component {
         />
           <br />
         </div> : ""}
+        {this.state.screen === -1 ? 
+        <Button variant="contained" color="primary" className={classes.button}
+            onClick={this.props.loadCookies}>
+            Continue
+        </Button> : "" }
         <Button variant="contained" color="primary" className={classes.button}
             onClick={this.nextScreen}
             disabled={this.props.name.length <= 2 && this.state.screen === 2} >
-            Continue
+            {this.state.screen === -1 ? "Start Over" : "Continue"}
           </Button>
       </div>
     )

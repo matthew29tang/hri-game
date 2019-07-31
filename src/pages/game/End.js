@@ -40,6 +40,7 @@ class End extends React.Component {
   submit = () => {
     this.setState({ submitted: true });
     this.props.sendData();
+    this.props.clearCookies();
   }
 
   render() {

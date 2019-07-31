@@ -2,6 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import Cookies from 'universal-cookie';
 
 import { rewards, successes, robot_actions } from '../config.js'
 import Intro from './Intro.js';
@@ -11,6 +12,7 @@ import RobotVideo from './RobotVideo.js';
 import End from './End.js';
 import History from './History.js';
 
+const cookies = new Cookies();
 const baseURL = "https://hri-game-backend.herokuapp.com"
 const styles = theme => ({
   card: {
@@ -115,17 +117,17 @@ class Game extends React.Component {
     }
   }
 
-  _updatePage = (newPage) => {
+  _updatePage = (newPage, cb) => {
     this.setState({
       page: newPage
-    });
+    }, cb);
     this._sendData("/raw");
   }
 
   // Intro screen --> Human room options
   beginGame = () => {
     const id = Math.floor(Math.random() * 2 ** 16);
-    this.setState({ id: id })
+    this.setState({ id: id }, this.setCookies);
     this._updatePage("chooseRoom");
   }
 
@@ -167,13 +169,54 @@ class Game extends React.Component {
       return { stage: state.stage + 1, roundScore: 0 }
     }, () => {
       if (this.state.stage < 5) {
-        this._updatePage("chooseRoom");
+        this._updatePage("chooseRoom", this.setCookies);
       } else {
-        this._updatePage("end")
+        this._updatePage("end", this.setCookies)
       }
     });
     
   }
+
+  setCookies = () => {
+    let d = new Date();
+    d.setTime(d.getTime() + (72*60*60*1000)); // 3 days in the future
+    cookies.set("started", true, {path: "/", expires: d});
+    cookies.set("name", this.state.name, {path: "/", expires: d});
+    cookies.set("id", this.state.id, {path: "/", expires: d});
+    cookies.set("history", this.state.history.join("_"), {path: "/", expires: d});
+    cookies.set("score", this.state.score, {path: "/", expires: d});
+    cookies.set("stage", this.state.stage, {path: "/", expires: d});
+    cookies.set("valid", this.state.valid, {path: "/", expires: d});
+  };
+
+  clearCookies = () => {
+    cookies.remove("started");
+    cookies.remove("name");
+    cookies.remove("id");
+    cookies.remove("history");
+    cookies.remove("score");
+    cookies.remove("stage");
+    cookies.remove("valid");
+  };
+
+  loadCookies = () => {
+    const hist = cookies.get("history") === "" ? [] : cookies.get("history").split("_").map(Number);
+    this.setState({
+      name: cookies.get("name"),
+      id: parseInt(cookies.get("id")),
+      history: hist,
+      score: parseFloat(cookies.get("score")),
+      stage: parseInt(cookies.get("stage")),
+      valid: cookies.get("valid") === "true",
+    }, () => {
+      if (this.state.stage === 5) {
+        this.setState({page: 'end'});
+      } else {
+        this.setState({page: 'chooseRoom'});
+      }
+    });
+  }
+  
 
   render() {
     const { classes } = this.props;
@@ -185,7 +228,11 @@ class Game extends React.Component {
               nextPage={this.beginGame}
               setName={this.saveText}
               validData={this.validData}
-              name={this.state.name} /> : ""}
+              name={this.state.name}
+              checkCookies={this.checkCookies}
+              cookies={cookies}
+              clearCookies={this.clearCookies}
+              loadCookies={this.loadCookies} /> : ""}
           {this.state.page === "chooseRoom" ?
             <RoomOptions
               stage={this.state.stage}
@@ -214,7 +261,8 @@ class Game extends React.Component {
               totalScore={this.state.score}
               saveText={this.saveText}
               sendData={() => this._sendData("/complete")}
-              saveSlider={this.saveSlider} /> : ""}
+              saveSlider={this.saveSlider}
+              clearCookies={this.clearCookies} /> : ""}
         </Paper>
         <br />
         {(this.state.page === "chooseRoom" && this.state.history.length > 0) || (this.state.page === "end" && !this.state.complete)?

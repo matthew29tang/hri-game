@@ -37,7 +37,7 @@ const styles = theme => ({
 class History extends React.Component {
   constructor(props) {
     super(props);
-    this.ids = this.props.history.map((action, i) => Math.floor(i / 2) + action);
+    this.ids = this.props.history.map((action, i) => Math.floor(i / 2) * 4 + action);
     this.images = this.ids.map(num => require(`../../img/Room${num}.PNG`));
     this.rooms = [[0, "Room A"], [1, "Room B"], [2, "Room C"], [3, "Room D"]];
   }
