@@ -75,7 +75,7 @@ class RoomOptions extends React.Component {
           {this.props.stage === 0 ?
             <div>
               Feel free to take a look at each of the rooms below.
-              Once you’ve decided which room Denise you’d like Denise to attempt, click on that room.
+              Once you’ve decided which room you’d like Denise to attempt, click on that room.
               <br/>
               Remember, you only get to choose one of these rooms.
               Hover over a room diagram to enlarge.

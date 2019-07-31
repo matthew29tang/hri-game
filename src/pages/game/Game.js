@@ -44,6 +44,7 @@ class Game extends React.Component {
       roundScore: 0,
       showHistory: false,
       complete: false,
+      loaded: false,
     }
   }
 
@@ -84,7 +85,8 @@ class Game extends React.Component {
         A4: this.state.A4 || 4,
         A5: this.state.A5 || 4,
         A6: this.state.A6 || 4,
-        SiteVersion: 1.2
+        SiteVersion: 1.3,
+        Loaded: this.state.loaded,
       }),
     })
     console.log("Data pushed");
@@ -208,6 +210,7 @@ class Game extends React.Component {
       score: parseFloat(cookies.get("score")),
       stage: parseInt(cookies.get("stage")),
       valid: cookies.get("valid") === "true",
+      loaded: true,
     }, () => {
       if (this.state.stage === 5) {
         this.setState({page: 'end'});

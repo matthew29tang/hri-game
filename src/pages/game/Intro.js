@@ -72,6 +72,8 @@ class Intro extends React.Component {
             <br /><br />
             Meet Denise, your teammate for today.
             <img src={require(`../../img/denise.jpg`)} width="80%" alt="Denise"/>
+            <br/>
+            Note that you must be playing the game on a computer/laptop (the site does not load correctly on mobile).
           </div> : ""}
         {this.state.screen === 1 ?
           <div>
