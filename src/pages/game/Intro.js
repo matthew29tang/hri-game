@@ -68,7 +68,7 @@ class Intro extends React.Component {
         : ""}
         {this.state.screen === 0 ? 
           <div>
-            Thanks for volunteering to help us test our program! This should take approximately 15-25 minutes. 
+            Thanks for volunteering to help us test our program! This should take approximately 10-20 minutes. 
             <br /><br />
             Meet Denise, your teammate for today.
             <img src={require(`../../img/denise.jpg`)} width="80%" alt="Denise"/>

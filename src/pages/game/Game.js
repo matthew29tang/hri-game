@@ -84,7 +84,7 @@ class Game extends React.Component {
         A4: this.state.A4 || 4,
         A5: this.state.A5 || 4,
         A6: this.state.A6 || 4,
-        SiteVersion: 1.1
+        SiteVersion: 1.2
       }),
     })
     console.log("Data pushed");
@@ -190,13 +190,13 @@ class Game extends React.Component {
   };
 
   clearCookies = () => {
-    cookies.remove("started");
-    cookies.remove("name");
-    cookies.remove("id");
-    cookies.remove("history");
-    cookies.remove("score");
-    cookies.remove("stage");
-    cookies.remove("valid");
+    cookies.remove("started", { path: '/' });
+    cookies.remove("name", { path: '/' });
+    cookies.remove("id", { path: '/' });
+    cookies.remove("history", { path: '/' });
+    cookies.remove("score", { path: '/' });
+    cookies.remove("stage", { path: '/' });
+    cookies.remove("valid", { path: '/' });
   };
 
   loadCookies = () => {
