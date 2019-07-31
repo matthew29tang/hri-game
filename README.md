@@ -13,44 +13,13 @@ Created by Matthew Tang
 
 Class Heirarchy Structure:
 
-```mermaid
-graph LR
-    A2[App.js]
-    A2 --> A3[NavBar.js]
-    A3 --> B{Game.js}
-    B -->|intro| C1(Intro.js)
-    B -->|chooseRoom| C2(RoomOptions.js)
-    B -->|humanVideo| C3(HumanVideo.js)
-    B -->|robotVideo| C4(RobotVideo.js)
-    B -->|humanVideo| C5(End.js)
-    C2 --> |showHist| D1(History.js)
-    C5 --> |showHist| D1(History.js)
-    C5 --> |submit| D2[Thank you!]
-    D[config.js] --> B
-    E[robot_actions.js] --> D
-```
+![Class heirarchy](./class_graph.png)
 
 Game Structure Flow:
-```mermaid
-graph TB
-    subgraph Intro
-    A1[Landing Intro] -->A2[Olympics Intro]
-    A2 --> A3[Name/Rules]
-    end
-    subgraph Game - 5 Stages
-    A3 --> B1(Room Options)
-    B1 -->|Human chooses| B2(Choice explanation)
-    B2 --> B3(Human Video)
-    B3 --> |Robot chooses | B4(Robot Video)
-    B4 --> B5(Remarks on robot choice)
-    B5 --> |Repeat x5| B1
-    end
-    subgraph Debrief
-    B5 --> |End of 5th round | C1(End Questionnaire)
-    C1 --> |submit| D2[Thank you!]
-    end
-```
 
+![Game Structure](./game_graph.png)
+
+Robot actions are stored offline from the Monte Carlo Tree Search in a JSON format.
 
 ## Backend
 The frontend sends data to the backend to store in a google sheet using google sheets API. I used the Google-Spreadsheet Node package for this which can be found [here](https://www.npmjs.com/package/google-spreadsheet).
