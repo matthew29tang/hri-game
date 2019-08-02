@@ -11,16 +11,6 @@ Created by Matthew Tang. Questions? Email me at matthewtang@berkeley.edu.
 
 ## Frontend
 
-Class Heirarchy Structure:
-
-![Class heirarchy](./class_graph.png)
-
-Game Structure Flow:
-
-![Game Structure](./game_graph.png)
-
-Robot actions are stored offline from the Monte Carlo Tree Search in a JSON format.
-
 ### Features
 * Local storage (cookies) to store progress if site is closed
 * Random robot strategies for multiple treatments (Starting from versions 1.4+, even IDs=optimal, odd IDs=random)
@@ -36,6 +26,17 @@ Robot actions are stored offline from the Monte Carlo Tree Search in a JSON form
 * Currently, strategy 0 is optimal (from mcts), strategy 1 is random (placebo).
 * To export more data from the site, make sure the state variable in game is added to the JSON payload that is sent to the google spreadsheet.
     * Make sure the google spreadsheet has a column that matches the key in the JSON.
+
+### Class Heirarchy Structure
+
+![Class heirarchy](./class_graph.png)
+
+### Game Structure Flow
+
+![Game Structure](./game_graph.png)
+
+Robot actions are stored offline from the Monte Carlo Tree Search in a JSON format.
+
 
 ## Backend
 The frontend sends data to the backend to store in a google sheet using google sheets API. I used the Google-Spreadsheet Node package for this which can be found [here](https://www.npmjs.com/package/google-spreadsheet).
