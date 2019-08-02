@@ -4,7 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Cookies from 'universal-cookie';
 
-import { rewards, successes, robot_actions } from '../config.js'
+import { rewards, successes, robot_strategies } from '../config.js'
 import Intro from './Intro.js';
 import RoomOptions from './RoomOptions.js';
 import HumanVideo from './HumanVideo.js';
@@ -85,7 +85,7 @@ class Game extends React.Component {
         A4: this.state.A4 || 4,
         A5: this.state.A5 || 4,
         A6: this.state.A6 || 4,
-        SiteVersion: 1.3,
+        SiteVersion: 1.4,
         Loaded: this.state.loaded,
       }),
     })
@@ -159,7 +159,8 @@ class Game extends React.Component {
   // Human action video --> Robot action video
   getRobotAction = () => {
     // Index into the cached mcts results to get robot action
-    const robotAction = robot_actions[this.state.history.join('')]
+    const strategy = this.state.id ? this.state.id % robot_strategies.length : 0;
+    const robotAction = robot_strategies[strategy][this.state.history.join('')];
     this._updateScore(robotAction, "robot");
     this._updateHistory(robotAction);
     this._updatePage("robotVideo");

@@ -1,4 +1,4 @@
-const robot_actions = {
+const robot_actions1 = {
 	"0": 2,
 	"1": 2,
 	"2": 0,
@@ -1365,4 +1365,4 @@ const robot_actions = {
 	"023130313": 0
 }
 
-export {robot_actions};
+export {robot_actions1};

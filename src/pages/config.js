@@ -1,4 +1,5 @@
-import { robot_actions } from './robot_actions.js';
+import { robot_actions1 } from './robot_actions1.js';
+import { robot_actions2 } from './robot_actions2.js';
 
 const rewards1 = [1.0, 3.0, 2.5, 2.0]
 const rewards2 = [8.0, 10.0, 7.5, 6.0]
@@ -28,4 +29,6 @@ const rooms = {
     3: 'Room D',
   }
 
-export {rewards, successes, videos, rooms, robot_actions};
+const robot_strategies = [robot_actions1, robot_actions2];
+
+export {rewards, successes, videos, rooms, robot_strategies};

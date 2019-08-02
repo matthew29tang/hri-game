@@ -1,9 +1,9 @@
 # HRI Game - Robot Olympics
 
-Created by Matthew Tang
+Created by Matthew Tang. Questions? Email me at matthewtang@berkeley.edu.
 
 ## Technologies used
-* Frontend: ReactJS
+* Frontend: ReactJS (https://matthew29tang.github.io/hri-game/)
     * Theme: Material UI
     * Deployment: Github pages
 * Backend: NodeJS
@@ -20,6 +20,22 @@ Game Structure Flow:
 ![Game Structure](./game_graph.png)
 
 Robot actions are stored offline from the Monte Carlo Tree Search in a JSON format.
+
+### Features
+* Local storage (cookies) to store progress if site is closed
+* Random robot strategies for multiple treatments (Starting from versions 1.4+, even IDs=optimal, odd IDs=random)
+* Continue buttons only show up once videos finish playing to force users to watch all of video (on first time playing)
+* History of past room choices
+* Questions along the way and end questionnaire 
+* Data is pushed to a google spreadsheet every step of the way.
+
+### Config
+* Room diagrams can be updated in `/src/img`. Rewards,  abilities, and video URLs can be changed in `/src/config.js`.
+* Robot strategies are stored offline in JSON files. You can add more robot strategies in the form `robot_actions#.js`.
+* Import the new strategies to `config.js` and add it to the array of strategies. Denise will randomly choose between the strategies.
+* Currently, strategy 0 is optimal (from mcts), strategy 1 is random (placebo).
+* To export more data from the site, make sure the state variable in game is added to the JSON payload that is sent to the google spreadsheet.
+    * Make sure the google spreadsheet has a column that matches the key in the JSON.
 
 ## Backend
 The frontend sends data to the backend to store in a google sheet using google sheets API. I used the Google-Spreadsheet Node package for this which can be found [here](https://www.npmjs.com/package/google-spreadsheet).
@@ -54,7 +70,7 @@ https://hri-game-backend.herokuapp.com/raw
     H0: 'Response here',
     R0: 'Response here',
     ...
-    SiteVersion: 1.1
+    SiteVersion: 1.4
 }
 ```
 
