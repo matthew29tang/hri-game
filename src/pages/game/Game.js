@@ -11,6 +11,7 @@ import HumanVideo from './HumanVideo.js';
 import RobotVideo from './RobotVideo.js';
 import End from './End.js';
 import History from './History.js';
+import Notes from './Notes.js';
 
 const cookies = new Cookies();
 const baseURL = "https://hri-game-backend.herokuapp.com"
@@ -43,8 +44,10 @@ class Game extends React.Component {
       page: 'intro',
       roundScore: 0,
       showHistory: false,
+      showNotes: false,
       complete: false,
       loaded: false,
+      Notes: '',
     }
   }
 
@@ -61,7 +64,7 @@ class Game extends React.Component {
         Name: this.state.name || "no name",
         ID: this.state.id || "no id",
         FirstTime: this.state.valid,
-        Date: (today.getMonth()+1)+'-'+today.getDate() +'-'+ today.getFullYear() + " " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
+        Date: (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear() + " " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
         History: this.state.history.join("_") || "no history",
         TotalScore: this.state.score || "no total score",
         H0: this.state.H0 || "",
@@ -85,13 +88,14 @@ class Game extends React.Component {
         A4: this.state.A4 || 4,
         A5: this.state.A5 || 4,
         A6: this.state.A6 || 4,
-        SiteVersion: 1.4,
+        Notes: this.state.Notes || "",
+        SiteVersion: 1.5,
         Loaded: this.state.loaded,
       }),
     })
     console.log("Data pushed");
     if (route === "/complete") {
-      this.setState({complete: true, showHistory: false})
+      this.setState({ complete: true, showHistory: false })
     }
   }
 
@@ -131,6 +135,7 @@ class Game extends React.Component {
     const id = Math.floor(Math.random() * 2 ** 16);
     this.setState({ id: id }, this.setCookies);
     this._updatePage("chooseRoom");
+    this.setState({ showNotes: true });
   }
 
   saveText = name => event => {
@@ -153,7 +158,7 @@ class Game extends React.Component {
     this._updateScore(room, "human");
     this._updateHistory(room);
     this._updatePage("humanVideo");
-    this.setState({showHistory: false})
+
   }
 
   // Human action video --> Robot action video
@@ -177,19 +182,20 @@ class Game extends React.Component {
         this._updatePage("end", this.setCookies)
       }
     });
-    
+
   }
 
   setCookies = () => {
     let d = new Date();
-    d.setTime(d.getTime() + (72*60*60*1000)); // 3 days in the future
-    cookies.set("started", true, {path: "/", expires: d});
-    cookies.set("name", this.state.name, {path: "/", expires: d});
-    cookies.set("id", this.state.id, {path: "/", expires: d});
-    cookies.set("history", this.state.history.join("_"), {path: "/", expires: d});
-    cookies.set("score", this.state.score, {path: "/", expires: d});
-    cookies.set("stage", this.state.stage, {path: "/", expires: d});
-    cookies.set("valid", this.state.valid, {path: "/", expires: d});
+    d.setTime(d.getTime() + (72 * 60 * 60 * 1000)); // 3 days in the future
+    cookies.set("started", true, { path: "/", expires: d });
+    cookies.set("name", this.state.name, { path: "/", expires: d });
+    cookies.set("id", this.state.id, { path: "/", expires: d });
+    cookies.set("history", this.state.history.join("_"), { path: "/", expires: d });
+    cookies.set("score", this.state.score, { path: "/", expires: d });
+    cookies.set("stage", this.state.stage, { path: "/", expires: d });
+    cookies.set("valid", this.state.valid, { path: "/", expires: d });
+    this.setState({ showHistory: false }, () => this.setState({ showHistory: true }));
   };
 
   clearCookies = () => {
@@ -214,13 +220,18 @@ class Game extends React.Component {
       loaded: true,
     }, () => {
       if (this.state.stage === 5) {
-        this.setState({page: 'end'});
+        this.setState({ page: 'end' });
       } else {
-        this.setState({page: 'chooseRoom'});
+        this.setState({ page: 'chooseRoom' });
       }
     });
   }
-  
+
+  toggleNotes = () => {
+    this.setState(state => {
+      return { showNotes: !state.showNotes }
+    })
+  }
 
   render() {
     const { classes } = this.props;
@@ -269,19 +280,35 @@ class Game extends React.Component {
               clearCookies={this.clearCookies} /> : ""}
         </Paper>
         <br />
-        {(this.state.page === "chooseRoom" && this.state.history.length > 0) || (this.state.page === "end" && !this.state.complete)?
-          <Button variant="contained" color="primary" className={classes.button} onClick={() => this.setState(state => {return {showHistory: !state.showHistory}})}>
-          Show history
+        {(this.state.page === "chooseRoom" && this.state.history.length > 0) || (this.state.page === "end" && !this.state.complete) ?
+          <Button variant="contained" color="primary" className={classes.button} onClick={() => this.setState(state => { return { showHistory: !state.showHistory } })}>
+            Show history
           </Button> : ""}
         <br />
         <br />
         {this.state.showHistory ?
-          <Paper className={classes.paper}>
-            <History
-              history={this.state.history}
-              stage={this.state.stage} />
-          </Paper> : ""}
-      </div>
+          <div className="history" >
+            <Paper className={classes.paper}>
+              <History
+                history={this.state.history}
+                stage={this.state.stage} />
+            </Paper>
+            <br />
+            <br />
+            </div > : ""}
+          {this.state.page !== 'intro' ?
+              <div className="toggleNotes">
+                <Button variant="contained" color="primary" className={classes.button} onClick={this.toggleNotes}>
+                  Show/Hide Notes
+          </Button>
+                <br />
+                <br />
+              </div> : ''}
+            {this.state.showNotes ?
+              <Paper className={classes.paper}>
+                <Notes saveText={this.saveText} />
+              </Paper> : ""}
+          </div>
     );
   }
 }
