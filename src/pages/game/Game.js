@@ -88,8 +88,13 @@ class Game extends React.Component {
         A4: this.state.A4 || 4,
         A5: this.state.A5 || 4,
         A6: this.state.A6 || 4,
+        Q1: this.state.Q1 || "",
+        Q2: this.state.Q2 || "",
+        Q3: this.state.Q3 || 3,
+        Q4: this.state.Q4 || 3,
+        Q5: this.state.Q5 || 3,
         Notes: this.state.Notes || "",
-        SiteVersion: 1.5,
+        SiteVersion: 2.0,
         Loaded: this.state.loaded,
       }),
     })
@@ -145,6 +150,14 @@ class Game extends React.Component {
   saveSlider = name => (event, newValue) => {
     this.setState({ [name]: newValue });
   };
+
+  saveDropdown = name => (event) => {
+    this.setState({ [name]: event.target.value });
+  };
+
+  demographicsDone = () => {
+    return this.state.Q1 != null && this.state.Q2 != null;
+  }
 
   validData = () => {
     this.setState(state => {
@@ -247,7 +260,10 @@ class Game extends React.Component {
               checkCookies={this.checkCookies}
               cookies={cookies}
               clearCookies={this.clearCookies}
-              loadCookies={this.loadCookies} /> : ""}
+              loadCookies={this.loadCookies}
+              saveSlider={this.saveSlider}
+              saveDropdown={this.saveDropdown}
+              demographicsDone={this.demographicsDone} /> : ""}
           {this.state.page === "chooseRoom" ?
             <RoomOptions
               stage={this.state.stage}

@@ -51,12 +51,39 @@ const marks = [
   },
 ];
 
+const marks5 = [
+  {
+    value: 1,
+    label: 'Strongly disagree',
+  },
+  {
+    value: 2,
+    label: 'Slightly disagree',
+  },
+  {
+    value: 3,
+    label: 'Neutral',
+  },
+  {
+    value: 4,
+    label: 'Slightly agree',
+  },
+  {
+    value: 5,
+    label: 'Strongly agree',
+  },
+];
+
 function valuetext(value) {
   return `${value}`;
 }
 
 function valueLabelFormat(value) {
   return marks.findIndex(mark => mark.value === value) + 1;
+}
+
+function valueLabelFormat5(value) {
+  return marks5.findIndex(mark => mark.value === value) + 1;
 }
 
 export default function MuiSlider(props) {
@@ -77,15 +104,15 @@ export default function MuiSlider(props) {
             {props.question}
           </Typography>
           <Slider
-            defaultValue={4}
-            valueLabelFormat={valueLabelFormat}
+            defaultValue={props.marks === 5 ? 3: 4}
+            valueLabelFormat={props.marks === 5 ? valueLabelFormat5 : valueLabelFormat}
             getAriaValueText={valuetext}
             aria-labelledby="discrete-slider-restrict"
             step={1}
             min={1}
-            max={7}
+            max={props.marks === 5 ? 5 : 7}
             valueLabelDisplay="auto"
-            marks={marks}
+            marks={props.marks === 5 ? marks5 : marks}
             onChange={props.onChange}
           />
         </Box>
