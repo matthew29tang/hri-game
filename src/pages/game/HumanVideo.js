@@ -4,7 +4,7 @@ import Divider from '@material-ui/core/Divider';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import YouTubePlayer from 'react-player/lib/players/YouTube'
-import { rewards, rooms, successes, videos } from '../config.js';
+import { rewards, rooms, successes, videos, roomOrder } from '../config.js';
 
 const styles = theme => ({
   card: {
@@ -39,6 +39,7 @@ class HumanVideo extends React.Component {
       playtime: 0,
       videoDone: false,
     }
+    this.row = roomOrder[this.props.stage];
   }
 
   playVideo = () => {
@@ -62,7 +63,7 @@ class HumanVideo extends React.Component {
         <h1> Your choice</h1>
         <Divider />
         <br />
-        Denise received your decision to attempt {rooms[this.props.action]} worth {rewards[this.props.stage][this.props.action]} points.
+        Denise received your decision to attempt {rooms[this.props.action]} worth {rewards[this.row][this.props.action]} points.
         <br />
         <br />
         {!this.state.playing ?
@@ -77,7 +78,7 @@ class HumanVideo extends React.Component {
               fullWidth
               rows="6"
               rowsMax="20"
-              onChange={this.props.saveText('H' + this.props.stage)}
+              onChange={this.props.saveText('H' + this.row)}
               className={classes.textField}
               margin="normal"
               variant="outlined"
@@ -92,7 +93,7 @@ class HumanVideo extends React.Component {
             <center>
               <YouTubePlayer
                 className='react-player'
-                url={videos[this.props.stage] ? videos[this.props.stage][this.props.action] : ""}
+                url={videos[this.row] ? videos[this.row][this.props.action] : ""}
                 playing={this.state.playing}
                 controls={!this.props.valid}
                 onProgress={(time) => this.updateState("playtime", time)}
@@ -107,9 +108,9 @@ class HumanVideo extends React.Component {
             Submit &amp; Play
           </Button> : ""}
         <br />
-        {this.state.videoDone && successes[this.props.stage][this.props.action] > 0 ?
+        {this.state.videoDone && successes[this.row][this.props.action] > 0 ?
           `Congrats! You have won ${this.props.roundScore} point(s). Click continue to see which room Denise will choose!` : ""}
-        {this.state.videoDone && successes[this.props.stage][this.props.action] === 0 ?
+        {this.state.videoDone && successes[this.row][this.props.action] === 0 ?
           `Unfortunately, Denise failed this challenge, so the team earned 0 points. Now, Denise will choose a room to attempt!` : ""}
         {this.state.videoDone ?
           <div className="buttons">

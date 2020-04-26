@@ -4,7 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Cookies from 'universal-cookie';
 
-import { rewards, successes, robot_strategies } from '../config.js'
+import { rewards, successes, robot_strategy, MAX_ROOMS, roomOrder, TREATMENT } from '../config.js'
 import Intro from './Intro.js';
 import RoomOptions from './RoomOptions.js';
 import HumanVideo from './HumanVideo.js';
@@ -94,6 +94,7 @@ class Game extends React.Component {
         Q4: this.state.Q4 || 3,
         Q5: this.state.Q5 || 3,
         Notes: this.state.Notes || "",
+        Treatment: TREATMENT,
         SiteVersion: 2.0,
         Loaded: this.state.loaded,
       }),
@@ -113,8 +114,9 @@ class Game extends React.Component {
   }
 
   _updateScore = (chosenRoom, type) => {
-    const success = successes[this.state.stage][chosenRoom]
-    const newPoints = success ? rewards[this.state.stage][chosenRoom] : 0
+    const row = roomOrder[this.state.stage];
+    const success = successes[row][chosenRoom]
+    const newPoints = success ? rewards[row][chosenRoom] : 0
     console.log("Gained " + newPoints + " pts");
     this.setState(state => {
       return { score: state.score + newPoints }
@@ -177,8 +179,9 @@ class Game extends React.Component {
   // Human action video --> Robot action video
   getRobotAction = () => {
     // Index into the cached mcts results to get robot action
-    const strategy = this.state.id ? this.state.id % robot_strategies.length : 0;
-    const robotAction = robot_strategies[strategy][this.state.history.join('')];
+    // const strategy = this.state.id ? this.state.id % robot_strategies.length : 0;
+    // const robotAction = robot_strategies[strategy][this.state.history.join('')];
+    const robotAction = robot_strategy[this.state.history.join('')];
     this._updateScore(robotAction, "robot");
     this._updateHistory(robotAction);
     this._updatePage("robotVideo");
@@ -189,7 +192,7 @@ class Game extends React.Component {
     this.setState(state => {
       return { stage: state.stage + 1, roundScore: 0 }
     }, () => {
-      if (this.state.stage < 5) {
+      if (this.state.stage < MAX_ROOMS) {
         this._updatePage("chooseRoom", this.setCookies);
       } else {
         this._updatePage("end", this.setCookies)
@@ -208,6 +211,12 @@ class Game extends React.Component {
     cookies.set("score", this.state.score, { path: "/", expires: d });
     cookies.set("stage", this.state.stage, { path: "/", expires: d });
     cookies.set("valid", this.state.valid, { path: "/", expires: d });
+    cookies.set("treatment", TREATMENT, { path: "/", expires: d });
+    cookies.set("Q1", this.state.Q1 || "", { path: "/", expires: d });
+    cookies.set("Q2", this.state.Q2 || "", { path: "/", expires: d });
+    cookies.set("Q3", this.state.Q3 || 3, { path: "/", expires: d });
+    cookies.set("Q4", this.state.Q4 || 3, { path: "/", expires: d });
+    cookies.set("Q5", this.state.Q5 || 3, { path: "/", expires: d });
     this.setState({ showHistory: false }, () => this.setState({ showHistory: true }));
   };
 
@@ -219,10 +228,20 @@ class Game extends React.Component {
     cookies.remove("score", { path: '/' });
     cookies.remove("stage", { path: '/' });
     cookies.remove("valid", { path: '/' });
+    cookies.remove("treatment", { path: '/' });
+    cookies.remove("Q1", { path: '/' });
+    cookies.remove("Q2", { path: '/' });
+    cookies.remove("Q3", { path: '/' });
+    cookies.remove("Q4", { path: '/' });
+    cookies.remove("Q5", { path: '/' });
   };
 
   loadCookies = () => {
     const hist = cookies.get("history") === "" ? [] : cookies.get("history").split("_").map(Number);
+    if (cookies.get("treatment") !== TREATMENT) {
+      console.log("Error: Different treatment. Please contact an administrator.")
+      return;
+    }
     this.setState({
       name: cookies.get("name"),
       id: parseInt(cookies.get("id")),
@@ -231,8 +250,13 @@ class Game extends React.Component {
       stage: parseInt(cookies.get("stage")),
       valid: cookies.get("valid") === "true",
       loaded: true,
+      Q1: cookies.get("Q1"),
+      Q2: cookies.get("Q2"),
+      Q3: cookies.get("Q3"),
+      Q4: cookies.get("Q4"),
+      Q5: cookies.get("Q5"),
     }, () => {
-      if (this.state.stage === 5) {
+      if (this.state.stage === MAX_ROOMS) {
         this.setState({ page: 'end' });
       } else {
         this.setState({ page: 'chooseRoom' });
@@ -312,7 +336,7 @@ class Game extends React.Component {
             <br />
             <br />
             </div > : ""}
-          {this.state.page !== 'intro' ?
+          {this.state.page !== 'intro' && !this.state.complete ?
               <div className="toggleNotes">
                 <Button variant="contained" color="primary" className={classes.button} onClick={this.toggleNotes}>
                   Show/Hide Notes
@@ -320,7 +344,7 @@ class Game extends React.Component {
                 <br />
                 <br />
               </div> : ''}
-            {this.state.showNotes ?
+            {this.state.showNotes && !this.state.complete ?
               <Paper className={classes.paper}>
                 <Notes saveText={this.saveText} />
               </Paper> : ""}

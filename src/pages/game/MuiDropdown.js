@@ -50,13 +50,12 @@ export default function SimpleSelect(props) {
             <FormControl className={classes.formControl}>
               <InputLabel id="demo-simple-select-label">{props.name}</InputLabel>
               <Select
-                labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={age}
                 onChange={handleChange}
               >
-                {props.data.map(item =>
-                  <MenuItem value={item}>{item}</MenuItem>
+                {props.data.map((item, i) =>
+                  <MenuItem value={item} key={i}>{item} </MenuItem>
                 )}
               </Select>
             </FormControl>

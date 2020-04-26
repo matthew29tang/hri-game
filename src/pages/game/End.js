@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
+import { MAX_ROOMS } from '../config.js';
 
 import MuiSlider from './MuiSlider.js'
 
@@ -55,7 +56,7 @@ class End extends React.Component {
             <br />
             Thanks so much for representing the lab! You and Denise made a great team.
             <br /><br />
-            Over the course of 5 rounds, your team  scored {this.props.totalScore} points!
+            Over the course of {MAX_ROOMS} rounds, your team  scored {this.props.totalScore} points!
             <br />
             <br />
             <div className={classes.textBox}>

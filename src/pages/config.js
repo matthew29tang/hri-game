@@ -1,5 +1,7 @@
-import { robot_actions1 } from './robot_actions1.js';
+import { robot_actions1 as robot_actionsAB} from './robot_actions1.js';
 import { robot_actions2 } from './robot_actions2.js';
+import { robot_actionsA } from './robot_actionsA.js';
+import { robot_actionsB } from './robot_actionsB.js';
 
 const rewards1 = [1.0, 3.0, 2.5, 2.0]
 const rewards2 = [8.0, 10.0, 7.5, 6.0]
@@ -29,6 +31,26 @@ const rooms = {
     3: 'Room D',
   }
 
-const robot_strategies = [robot_actions1, robot_actions2];
+const TREATMENT = 'A'
+var robot_strategy = null;
+var roomList = [[0,1,2,3], [4,5,6,7], [8,9,10,11], [12,13,14,15], [16,17,18,19]];
+var roomOrder = null;
+var MAX_ROOMS = null;
 
-export {rewards, successes, videos, rooms, robot_strategies};
+if (TREATMENT === 'AB') {
+  robot_strategy = robot_actionsAB;
+  roomOrder = [0, 1, 2, 3, 4];
+  MAX_ROOMS = 5;
+} else if (TREATMENT === 'A') {
+  robot_strategy = robot_actionsA;
+  roomOrder = [0, 1, 2];
+  MAX_ROOMS = 3;
+} else if (TREATMENT === 'B') {
+  robot_strategy = robot_actionsB;
+  roomOrder = [3, 4];
+  MAX_ROOMS = 2;
+}
+
+//const robot_strategies = [robot_actions1, robot_actions2];
+
+export {rewards, successes, videos, rooms, robot_strategy, roomOrder, roomList, MAX_ROOMS, TREATMENT};

@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import { withStyles } from '@material-ui/core/styles';
 
-import { rewards } from '../config.js';
+import { rewards, roomOrder, roomList } from '../config.js';
 
 const styles = theme => ({
   card: {
@@ -43,11 +43,12 @@ class RoomOptions extends React.Component {
     this.state = {
       preview: 0
     }
+    this.row = roomOrder[this.props.stage];
     this.images = [
-      require(`../../img/Room${this.props.stage * 4}.PNG`),
-      require(`../../img/Room${this.props.stage * 4 + 1}.PNG`),
-      require(`../../img/Room${this.props.stage * 4 + 2}.PNG`),
-      require(`../../img/Room${this.props.stage * 4 + 3}.PNG`),
+      require('../../img/Room' + roomList[this.row][0] + '.PNG'),
+      require('../../img/Room' + roomList[this.row][1] + '.PNG'),
+      require('../../img/Room' + roomList[this.row][2] + '.PNG'),
+      require('../../img/Room' + roomList[this.row][3] + '.PNG'),
     ]
     this.rooms = [[0, "Room A"], [1, "Room B"], [2, "Room C"], [3, "Room D"]]
   }
@@ -99,7 +100,7 @@ class RoomOptions extends React.Component {
                 <img className={classes.room} src={this.images[room[0]]} alt={room[1]}
                   onMouseOver={() => this.updatePreview(room[0])} />
                 <div className={classes.bodyText}>
-                  Reward: {rewards[this.props.stage][i]}pts
+                  Reward: {rewards[this.row][i]}pts
                 </div>
               </Paper>
               <br />

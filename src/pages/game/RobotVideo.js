@@ -4,7 +4,7 @@ import Divider from '@material-ui/core/Divider';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import YouTubePlayer from 'react-player/lib/players/YouTube'
-import { rewards, rooms, successes, videos } from '../config.js';
+import { rewards, rooms, successes, videos, roomOrder, roomList } from '../config.js';
 
 const styles = theme => ({
   card: {
@@ -39,6 +39,7 @@ class RobotVideo extends React.Component {
       playtime: 0,
       videoDone: false,
     }
+    this.row = roomOrder[this.props.stage];
   }
 
   playVideo = () => {
@@ -64,8 +65,8 @@ class RobotVideo extends React.Component {
         <br />
         {!this.state.playing && !this.state.videoDone ?
           <div>
-            Denise has chosen to attempt {rooms[this.props.action]} worth {rewards[this.props.stage][this.props.action]} points.
-            <img src={require(`../../img/Room${this.props.stage * 4 + this.props.action}.PNG`)} width="70%" alt="robotRoom"/>
+            Denise has chosen to attempt {rooms[this.props.action]} worth {rewards[this.row][this.props.action]} points.
+            <img src={require('../../img/Room' + roomList[this.row][this.props.action] + '.PNG')} width="70%" alt="robotRoom"/>
             <br />
             Click the button to see the results.
             <br />
@@ -75,7 +76,7 @@ class RobotVideo extends React.Component {
             <center>
               <YouTubePlayer
                 className='react-player'
-                url={videos[this.props.stage] ? videos[this.props.stage][this.props.action] : ""}
+                url={videos[this.row] ? videos[this.row][this.props.action] : ""}
                 playing={this.state.playing}
                 controls={!this.props.valid}
                 onProgress={(time) => this.updateState("playtime", time)}
@@ -90,9 +91,9 @@ class RobotVideo extends React.Component {
             Play Video
           </Button> : ""}
         <br />
-        {this.state.videoDone && successes[this.props.stage] && successes[this.props.stage][this.props.action] > 0 ?
+        {this.state.videoDone && successes[this.row] && successes[this.row][this.props.action] > 0 ?
           `Denise succeeded! Your total score this round is ${this.props.roundScore} point(s).` : ""}
-        {this.state.videoDone && successes[this.props.stage] && successes[this.props.stage][this.props.action] === 0 ?
+        {this.state.videoDone && successes[this.row] && successes[this.row][this.props.action] === 0 ?
           `Unfortunately, Denise failed this challenge. Your total score this round is still ${this.props.roundScore} point(s).` : ""}
         {this.state.videoDone ?
           <div className="buttons">
@@ -117,7 +118,7 @@ class RobotVideo extends React.Component {
               fullWidth
               rows="6"
               rowsMax="20"
-              onChange={this.props.saveText('R' + this.props.stage)}
+              onChange={this.props.saveText('R' + this.row)}
               className={classes.textField}
               margin="normal"
               variant="outlined"
