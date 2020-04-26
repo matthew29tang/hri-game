@@ -1,7 +1,7 @@
 import { robot_actions1 as robot_actionsAB} from './robot_actions1.js';
-import { robot_actions2 } from './robot_actions2.js';
 import { robot_actionsA } from './robot_actionsA.js';
 import { robot_actionsB } from './robot_actionsB.js';
+import { robot_actionsBA } from './robot_actionsBA.js';
 
 const rewards1 = [1.0, 3.0, 2.5, 2.0]
 const rewards2 = [8.0, 10.0, 7.5, 6.0]
@@ -31,7 +31,15 @@ const rooms = {
     3: 'Room D',
   }
 
-const TREATMENT = 'A'
+// BEGIN SET TREATMENT 
+var TREATMENT = 'BA'
+/* Example of random treatment. Not compatible with restarting from cookies.
+if (Math.random() > 0.5) {
+  TREATMENT = 'AB'
+} */
+// END SET TREATMENT
+
+// Don't modify code below here
 var robot_strategy = null;
 var roomList = [[0,1,2,3], [4,5,6,7], [8,9,10,11], [12,13,14,15], [16,17,18,19]];
 var roomOrder = null;
@@ -49,8 +57,10 @@ if (TREATMENT === 'AB') {
   robot_strategy = robot_actionsB;
   roomOrder = [3, 4];
   MAX_ROOMS = 2;
+} else if (TREATMENT === 'BA') {
+  robot_strategy = robot_actionsBA;
+  roomOrder = [3, 4, 0, 1, 2];
+  MAX_ROOMS = 5;
 }
-
-//const robot_strategies = [robot_actions1, robot_actions2];
 
 export {rewards, successes, videos, rooms, robot_strategy, roomOrder, roomList, MAX_ROOMS, TREATMENT};

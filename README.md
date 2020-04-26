@@ -9,6 +9,15 @@ Created by Matthew Tang. Questions? Email me at matthewtang@berkeley.edu.
 * Backend: NodeJS
     * Deployment: Heroku (https://hri-game-backend.herokuapp.com)
 
+## Version 2.0 
+* Version 2.0 is here! Here is a list of the major changes
+* Demographics questions in the beginning 
+* Sped up videos by around 1.25-1.5x
+* Persistent notes textbox at bottom
+* A/B/AB/BA testing capability
+    * Edit `TREATMENT` in `config.js` to set the treatment configuration for the site
+* Fixed a bug where the images wouldn't load properly on repeated runs
+
 ## Frontend
 
 ### Features
