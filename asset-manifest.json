@@ -1,16 +1,17 @@
 {
   "files": {
     "main.css": "/hri-game/static/css/main.bfd17360.chunk.css",
-    "main.js": "/hri-game/static/js/main.35d6505d.chunk.js",
-    "main.js.map": "/hri-game/static/js/main.35d6505d.chunk.js.map",
-    "runtime~main.js": "/hri-game/static/js/runtime~main.058b036c.js",
-    "runtime~main.js.map": "/hri-game/static/js/runtime~main.058b036c.js.map",
-    "static/js/2.48971f37.chunk.js": "/hri-game/static/js/2.48971f37.chunk.js",
-    "static/js/2.48971f37.chunk.js.map": "/hri-game/static/js/2.48971f37.chunk.js.map",
+    "main.js": "/hri-game/static/js/main.096793be.chunk.js",
+    "main.js.map": "/hri-game/static/js/main.096793be.chunk.js.map",
+    "runtime-main.js": "/hri-game/static/js/runtime-main.58612f74.js",
+    "runtime-main.js.map": "/hri-game/static/js/runtime-main.58612f74.js.map",
+    "static/js/2.7d2946dc.chunk.js": "/hri-game/static/js/2.7d2946dc.chunk.js",
+    "static/js/2.7d2946dc.chunk.js.map": "/hri-game/static/js/2.7d2946dc.chunk.js.map",
     "index.html": "/hri-game/index.html",
-    "precache-manifest.be87600a2e9699d94b9108b5870fa8cf.js": "/hri-game/precache-manifest.be87600a2e9699d94b9108b5870fa8cf.js",
+    "precache-manifest.03b80ff6a57286864d86b5af4395e673.js": "/hri-game/precache-manifest.03b80ff6a57286864d86b5af4395e673.js",
     "service-worker.js": "/hri-game/service-worker.js",
     "static/css/main.bfd17360.chunk.css.map": "/hri-game/static/css/main.bfd17360.chunk.css.map",
+    "static/js/2.7d2946dc.chunk.js.LICENSE.txt": "/hri-game/static/js/2.7d2946dc.chunk.js.LICENSE.txt",
     "static/media/Room0.PNG": "/hri-game/static/media/Room0.74e7e105.PNG",
     "static/media/Room1.PNG": "/hri-game/static/media/Room1.1438e30f.PNG",
     "static/media/Room10.PNG": "/hri-game/static/media/Room10.7cdd45f1.PNG",
@@ -33,5 +34,11 @@
     "static/media/Room9.PNG": "/hri-game/static/media/Room9.413da93e.PNG",
     "static/media/denise.jpg": "/hri-game/static/media/denise.31f96433.jpg",
     "static/media/robot_olympics.png": "/hri-game/static/media/robot_olympics.a48c8e2d.png"
-  }
+  },
+  "entrypoints": [
+    "static/js/runtime-main.58612f74.js",
+    "static/js/2.7d2946dc.chunk.js",
+    "static/css/main.bfd17360.chunk.css",
+    "static/js/main.096793be.chunk.js"
+  ]
 }
