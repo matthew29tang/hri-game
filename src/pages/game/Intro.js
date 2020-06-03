@@ -6,8 +6,9 @@ import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-import MuiSlider from './MuiSlider.js'
-import MuiDropdown from './MuiDropdown.js'
+import MuiSlider from './inputs/MuiSlider.js';
+import MuiDropdown from './inputs/MuiDropdown.js';
+import MuiRadio from './inputs/MuiRadio.js';
 
 
 const styles = theme => ({
@@ -33,6 +34,7 @@ class Intro extends React.Component {
     this.state = {
       name: '',
       screen: 0,
+      checked: true
     }
     this.checkCookies();
   }
@@ -41,7 +43,9 @@ class Intro extends React.Component {
     if (this.props.cookies.get("started")) {
       console.log("Game detected.");
       this.state = {
-        screen: -1
+        name: '',
+        screen: -1,
+        checked: true
       }
     }
   }
@@ -53,7 +57,16 @@ class Intro extends React.Component {
     if (this.state.screen === 3) {
       this.props.nextPage();
     }
-    this.setState((state) => { return { screen: state.screen + 1 } })
+    this.setState((state) => { return { screen: state.screen + 1 } }, () => console.log(this.state));
+
+  }
+
+  changeValid = () => {
+    this.setState(state => {
+      const validData = !state.checked
+      return { checked: validData }
+    });
+    this.props.validData();
   }
 
   render() {
@@ -95,7 +108,7 @@ class Intro extends React.Component {
               onChange={this.props.saveDropdown("Q2")}
               data={['Male', 'Female', 'Non-binary', 'Other', 'Prefer not to respond']}
             />
-            < h3> For the following questions, think about times when you have played different kinds of games, <br/>
+            < h3> For the following questions, think about times when you have played different kinds of games, <br />
              including board/card games and video games.</h3>
 
             <MuiSlider
@@ -112,6 +125,15 @@ class Intro extends React.Component {
               question="I like to take the safe option when playing games."
               marks={5}
               onChange={this.props.saveSlider("Q5")} />
+
+            <MuiRadio
+              question="What is your knowledge of computers?"
+              choices={["(5) I know some things about how computers work beneath the surface.",
+                "(4) I’m comfortable with the things listed below, plus I have done some computer programming",
+                "(3) I’m comfortable changing settings or installing new things myself on my computer.",
+                "(2) I’m comfortable browsing the internet or using a word processor like Microsoft Word",
+                "(1) I’m not very comfortable with any of this stuff."]}
+              onChange={this.props.saveRadio("Q6")} />
           </div> : ""}
         {this.state.screen === 2 ?
           <div>
@@ -160,7 +182,7 @@ class Intro extends React.Component {
               control={
                 <Checkbox
                   checked={this.state.checked}
-                  onChange={this.props.validData}
+                  onChange={this.changeValid}
                   color="primary"
                 />
               }

@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import { MAX_ROOMS } from '../config.js';
 
-import MuiSlider from './MuiSlider.js'
+import MuiSlider from './inputs/MuiSlider.js'
 
 const styles = theme => ({
   card: {

@@ -43,6 +43,7 @@ class HumanVideo extends React.Component {
   }
 
   playVideo = () => {
+    this.props.scrollTop();
     this.setState({
       playing: true,
     });

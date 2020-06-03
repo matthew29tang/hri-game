@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Cookies from 'universal-cookie';
+import { animateScroll as scroll } from "react-scroll";
 
 import { rewards, successes, robot_strategy, MAX_ROOMS, roomOrder, TREATMENT } from '../config.js'
 import Intro from './Intro.js';
@@ -30,6 +31,7 @@ const styles = theme => ({
   paper: {
     padding: theme.spacing(3, 2),
   },
+
 });
 
 class Game extends React.Component {
@@ -37,7 +39,7 @@ class Game extends React.Component {
     super(props);
     this.state = {
       name: '',
-      valid: false,
+      valid: true,
       history: [],
       stage: 0,
       score: 0,
@@ -53,6 +55,7 @@ class Game extends React.Component {
 
   // Send data to backend server to push to excel spreadsheet
   _sendData = (route) => {
+    console.log(this.state.Q6)
     var today = new Date();
     fetch(baseURL + route, {
       method: 'POST',
@@ -93,9 +96,10 @@ class Game extends React.Component {
         Q3: this.state.Q3 || 3,
         Q4: this.state.Q4 || 3,
         Q5: this.state.Q5 || 3,
+        Q6: this.state.Q5 || "",
         Notes: this.state.Notes || "",
         Treatment: TREATMENT,
-        SiteVersion: 2.0,
+        SiteVersion: 2.1,
         Loaded: this.state.loaded,
       }),
     })
@@ -153,10 +157,6 @@ class Game extends React.Component {
     this.setState({ [name]: newValue });
   };
 
-  saveDropdown = name => (event) => {
-    this.setState({ [name]: event.target.value });
-  };
-
   demographicsDone = () => {
     return this.state.Q1 != null && this.state.Q2 != null;
   }
@@ -165,7 +165,14 @@ class Game extends React.Component {
     this.setState(state => {
       const validData = !state.valid
       return { valid: validData }
-    })
+    });
+  }
+
+  scrollTop = () => {
+    scroll.scrollToTop({
+      duration: 750,
+      smooth: true,
+    });
   }
 
   // Human chooses room --> Human action video
@@ -173,7 +180,7 @@ class Game extends React.Component {
     this._updateScore(room, "human");
     this._updateHistory(room);
     this._updatePage("humanVideo");
-
+    this.scrollTop();
   }
 
   // Human action video --> Robot action video
@@ -185,6 +192,7 @@ class Game extends React.Component {
     this._updateScore(robotAction, "robot");
     this._updateHistory(robotAction);
     this._updatePage("robotVideo");
+    this.scrollTop();
   }
 
   // Stages go from 0 to 4, 5 indicates a finished game.
@@ -198,7 +206,7 @@ class Game extends React.Component {
         this._updatePage("end", this.setCookies)
       }
     });
-
+    this.scrollTop();
   }
 
   setCookies = () => {
@@ -217,6 +225,7 @@ class Game extends React.Component {
     cookies.set("Q3", this.state.Q3 || 3, { path: "/", expires: d });
     cookies.set("Q4", this.state.Q4 || 3, { path: "/", expires: d });
     cookies.set("Q5", this.state.Q5 || 3, { path: "/", expires: d });
+    cookies.set("Q6", this.state.Q5 || 3, { path: "/", expires: d });
     this.setState({ showHistory: false }, () => this.setState({ showHistory: true }));
   };
 
@@ -234,6 +243,7 @@ class Game extends React.Component {
     cookies.remove("Q3", { path: '/' });
     cookies.remove("Q4", { path: '/' });
     cookies.remove("Q5", { path: '/' });
+    cookies.remove("Q6", { path: '/' });
   };
 
   loadCookies = () => {
@@ -255,6 +265,7 @@ class Game extends React.Component {
       Q3: cookies.get("Q3"),
       Q4: cookies.get("Q4"),
       Q5: cookies.get("Q5"),
+      Q6: cookies.get("Q5"),
     }, () => {
       if (this.state.stage === MAX_ROOMS) {
         this.setState({ page: 'end' });
@@ -273,7 +284,7 @@ class Game extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className="game">
+      <div className="game" >
         <Paper className={classes.paper}>
           {this.state.page === "intro" ?
             <Intro
@@ -286,7 +297,8 @@ class Game extends React.Component {
               clearCookies={this.clearCookies}
               loadCookies={this.loadCookies}
               saveSlider={this.saveSlider}
-              saveDropdown={this.saveDropdown}
+              saveDropdown={this.saveText}
+              saveRadio={this.saveText}
               demographicsDone={this.demographicsDone} /> : ""}
           {this.state.page === "chooseRoom" ?
             <RoomOptions
@@ -301,7 +313,8 @@ class Game extends React.Component {
               roundScore={this.state.roundScore}
               nextPage={this.getRobotAction}
               saveText={this.saveText}
-              valid={this.state.valid} /> : ""}
+              valid={this.state.valid}
+              scrollTop={this.scrollTop} /> : ""}
           {this.state.page === "robotVideo" ?
             <RobotVideo
               stage={this.state.stage}
@@ -310,7 +323,8 @@ class Game extends React.Component {
               roundScore={this.state.roundScore}
               nextPage={this.incrementStage}
               saveText={this.saveText}
-              valid={this.state.valid} /> : ""}
+              valid={this.state.valid}
+              scrollTop={this.scrollTop} /> : ""}
           {this.state.page === "end" ?
             <End
               totalScore={this.state.score}
@@ -335,20 +349,21 @@ class Game extends React.Component {
             </Paper>
             <br />
             <br />
-            </div > : ""}
-          {this.state.page !== 'intro' && !this.state.complete ?
-              <div className="toggleNotes">
-                <Button variant="contained" color="primary" className={classes.button} onClick={this.toggleNotes}>
-                  Show/Hide Notes
+          </div > : ""}
+        {this.state.page !== 'intro' && !this.state.complete ?
+          <div className="toggleNotes">
+            <Button variant="contained" color="primary" className={classes.button} onClick={this.toggleNotes}>
+              Show/Hide Notes
           </Button>
-                <br />
-                <br />
-              </div> : ''}
-            {this.state.showNotes && !this.state.complete ?
-              <Paper className={classes.paper}>
-                <Notes saveText={this.saveText} />
-              </Paper> : ""}
-          </div>
+            <br />
+            <br />
+          </div> : ''}
+        {this.state.showNotes && !this.state.complete ?
+          <Paper className={classes.paper}>
+            <Notes saveText={this.saveText} />
+          </Paper> : ""}
+      </div>
+
     );
   }
 }

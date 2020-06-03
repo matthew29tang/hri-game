@@ -43,6 +43,7 @@ class RobotVideo extends React.Component {
   }
 
   playVideo = () => {
+    this.props.scrollTop();
     this.setState({
       playing: true
     });
