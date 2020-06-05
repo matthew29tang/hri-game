@@ -99,7 +99,7 @@ class Game extends React.Component {
         Q6: this.state.Q5 || "",
         Notes: this.state.Notes || "",
         Treatment: TREATMENT,
-        SiteVersion: 2.1,
+        SiteVersion: 2.11,
         Loaded: this.state.loaded,
       }),
     })

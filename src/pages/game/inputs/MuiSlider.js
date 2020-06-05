@@ -99,7 +99,7 @@ export default function MuiSlider(props) {
         alignItems="center"
         justify="center"
       >
-        <Box width="50%">
+        <Box width="75%">
           <Typography id="discrete-slider-restrict" gutterBottom className={classes.body}>
             {props.question}
           </Typography>

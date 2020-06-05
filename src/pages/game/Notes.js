@@ -51,7 +51,7 @@ class Notes extends React.Component {
             fullWidth
             rows="6"
             rowsMax="20"
-            onChange={this.props.saveText('Notes')}
+            onChange={() => this.props.saveText('Notes')}
             className={classes.textField}
             margin="normal"
             variant="outlined"
