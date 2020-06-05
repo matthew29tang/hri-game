@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/hri-game/static/css/main.bfd17360.chunk.css",
-    "main.js": "/hri-game/static/js/main.096793be.chunk.js",
-    "main.js.map": "/hri-game/static/js/main.096793be.chunk.js.map",
+    "main.js": "/hri-game/static/js/main.07de8fc4.chunk.js",
+    "main.js.map": "/hri-game/static/js/main.07de8fc4.chunk.js.map",
     "runtime-main.js": "/hri-game/static/js/runtime-main.58612f74.js",
     "runtime-main.js.map": "/hri-game/static/js/runtime-main.58612f74.js.map",
     "static/js/2.7d2946dc.chunk.js": "/hri-game/static/js/2.7d2946dc.chunk.js",
     "static/js/2.7d2946dc.chunk.js.map": "/hri-game/static/js/2.7d2946dc.chunk.js.map",
     "index.html": "/hri-game/index.html",
-    "precache-manifest.03b80ff6a57286864d86b5af4395e673.js": "/hri-game/precache-manifest.03b80ff6a57286864d86b5af4395e673.js",
+    "precache-manifest.815266c6076ba7021e029433633a459a.js": "/hri-game/precache-manifest.815266c6076ba7021e029433633a459a.js",
     "service-worker.js": "/hri-game/service-worker.js",
     "static/css/main.bfd17360.chunk.css.map": "/hri-game/static/css/main.bfd17360.chunk.css.map",
     "static/js/2.7d2946dc.chunk.js.LICENSE.txt": "/hri-game/static/js/2.7d2946dc.chunk.js.LICENSE.txt",
@@ -39,6 +39,6 @@
     "static/js/runtime-main.58612f74.js",
     "static/js/2.7d2946dc.chunk.js",
     "static/css/main.bfd17360.chunk.css",
-    "static/js/main.096793be.chunk.js"
+    "static/js/main.07de8fc4.chunk.js"
   ]
 }
