@@ -31,20 +31,17 @@ const styles = theme => ({
 class Intro extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: '',
-      screen: 0,
-      checked: true
-    }
-    this.checkCookies();
-  }
-
-  checkCookies = () => {
-    if (this.props.cookies.get("started")) {
+    if (props.cookies.get("started")) {
       console.log("Game detected.");
       this.state = {
         name: '',
         screen: -1,
+        checked: true
+      }
+    } else {
+      this.state = {
+        name: '',
+        screen: 0,
         checked: true
       }
     }
@@ -57,7 +54,7 @@ class Intro extends React.Component {
     if (this.state.screen === 3) {
       this.props.nextPage();
     }
-    this.setState((state) => { return { screen: state.screen + 1 } }, () => console.log(this.state));
+    this.setState((state) => { return { screen: state.screen + 1 } });
 
   }
 

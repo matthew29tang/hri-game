@@ -55,7 +55,6 @@ class Game extends React.Component {
 
   // Send data to backend server to push to excel spreadsheet
   _sendData = (route) => {
-    console.log(this.state.Q6)
     var today = new Date();
     fetch(baseURL + route, {
       method: 'POST',
@@ -96,7 +95,7 @@ class Game extends React.Component {
         Q3: this.state.Q3 || 3,
         Q4: this.state.Q4 || 3,
         Q5: this.state.Q5 || 3,
-        Q6: this.state.Q5 || "",
+        Q6: this.state.Q6 || "",
         Notes: this.state.Notes || "",
         Treatment: TREATMENT,
         SiteVersion: 2.11,
@@ -225,7 +224,7 @@ class Game extends React.Component {
     cookies.set("Q3", this.state.Q3 || 3, { path: "/", expires: d });
     cookies.set("Q4", this.state.Q4 || 3, { path: "/", expires: d });
     cookies.set("Q5", this.state.Q5 || 3, { path: "/", expires: d });
-    cookies.set("Q6", this.state.Q5 || 3, { path: "/", expires: d });
+    cookies.set("Q6", this.state.Q6 || "", { path: "/", expires: d });
     this.setState({ showHistory: false }, () => this.setState({ showHistory: true }));
   };
 
