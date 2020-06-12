@@ -53,6 +53,13 @@ class Game extends React.Component {
     }
   }
 
+  _sanitize = (str) => {
+    if (str == null) {
+      return null;
+    }
+    return str.replace(/\[/g, "(").replace(/\]/g, ")");
+  }
+
   // Send data to backend server to push to excel spreadsheet
   _sendData = (route) => {
     var today = new Date();
@@ -69,36 +76,36 @@ class Game extends React.Component {
         Date: (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear() + " " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
         History: this.state.history.join("_") || "no history",
         TotalScore: this.state.score || "no total score",
-        H0: this.state.H0 || "",
-        H1: this.state.H1 || "",
-        H2: this.state.H2 || "",
-        H3: this.state.H3 || "",
-        H4: this.state.H4 || "",
-        R0: this.state.R0 || "",
-        R1: this.state.R1 || "",
-        R2: this.state.R2 || "",
-        R3: this.state.R3 || "",
-        R4: this.state.R4 || "",
-        D1: this.state.D1 || "",
-        D2: this.state.D2 || "",
-        D3: this.state.D3 || "",
-        D4: this.state.D4 || "",
-        D5: this.state.D5 || "",
-        A1: this.state.A1 || 4,
-        A2: this.state.A2 || 4,
-        A3: this.state.A3 || 4,
-        A4: this.state.A4 || 4,
-        A5: this.state.A5 || 4,
-        A6: this.state.A6 || 4,
-        Q1: this.state.Q1 || "",
-        Q2: this.state.Q2 || "",
-        Q3: this.state.Q3 || 3,
-        Q4: this.state.Q4 || 3,
-        Q5: this.state.Q5 || 3,
-        Q6: this.state.Q6 || "",
-        Notes: this.state.Notes || "",
+        H0: this._sanitize(this.state.H0) || "",
+        H1: this._sanitize(this.state.H1) || "",
+        H2: this._sanitize(this.state.H2) || "",
+        H3: this._sanitize(this.state.H3) || "",
+        H4: this._sanitize(this.state.H4) || "",
+        R0: this._sanitize(this.state.R0) || "",
+        R1: this._sanitize(this.state.R1) || "",
+        R2: this._sanitize(this.state.R2) || "",
+        R3: this._sanitize(this.state.R3) || "",
+        R4: this._sanitize(this.state.R4) || "",
+        D1: this._sanitize(this.state.D1) || "",
+        D2: this._sanitize(this.state.D2) || "",
+        D3: this._sanitize(this.state.D3) || "",
+        D4: this._sanitize(this.state.D4) || "",
+        D5: this._sanitize(this.state.D5) || "",
+        A1: this._sanitize(this.state.A1) || 4,
+        A2: this._sanitize(this.state.A2) || 4,
+        A3: this._sanitize(this.state.A3) || 4,
+        A4: this._sanitize(this.state.A4) || 4,
+        A5: this._sanitize(this.state.A5) || 4,
+        A6: this._sanitize(this.state.A6) || 4,
+        Q1: this._sanitize(this.state.Q1) || "",
+        Q2: this._sanitize(this.state.Q2) || "",
+        Q3: this._sanitize(this.state.Q3) || 3,
+        Q4: this._sanitize(this.state.Q4) || 3,
+        Q5: this._sanitize(this.state.Q5) || 3,
+        Q6: this._sanitize(this.state.Q6) || "",
+        Notes: this._sanitize(this.state.Notes) || "",
         Treatment: TREATMENT,
-        SiteVersion: 2.11,
+        SiteVersion: 2.2,
         Loaded: this.state.loaded,
       }),
     })
