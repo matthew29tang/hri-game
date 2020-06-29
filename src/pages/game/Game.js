@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import Cookies from 'universal-cookie';
 import { animateScroll as scroll } from "react-scroll";
 
-import { rewards, successes, robot_strategy, MAX_ROOMS, roomOrder, TREATMENT } from '../config.js'
+import { rewards, successes, robot_strategy, MAX_ROOMS, roomOrder, TREATMENT, DEBUG_MODE, SITE_VERSION } from '../config.js'
 import Intro from './Intro.js';
 import RoomOptions from './RoomOptions.js';
 import HumanVideo from './HumanVideo.js';
@@ -39,7 +39,7 @@ class Game extends React.Component {
     super(props);
     this.state = {
       name: '',
-      valid: true,
+      valid: !DEBUG_MODE,
       history: [],
       stage: 0,
       score: 0,
@@ -76,16 +76,6 @@ class Game extends React.Component {
         Date: (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear() + " " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
         History: this.state.history.join("_") || "no history",
         TotalScore: this.state.score || "no total score",
-        H0: this._sanitize(this.state.H0) || "",
-        H1: this._sanitize(this.state.H1) || "",
-        H2: this._sanitize(this.state.H2) || "",
-        H3: this._sanitize(this.state.H3) || "",
-        H4: this._sanitize(this.state.H4) || "",
-        R0: this._sanitize(this.state.R0) || "",
-        R1: this._sanitize(this.state.R1) || "",
-        R2: this._sanitize(this.state.R2) || "",
-        R3: this._sanitize(this.state.R3) || "",
-        R4: this._sanitize(this.state.R4) || "",
         D1: this._sanitize(this.state.D1) || "",
         D2: this._sanitize(this.state.D2) || "",
         D3: this._sanitize(this.state.D3) || "",
@@ -105,7 +95,7 @@ class Game extends React.Component {
         Q6: this._sanitize(this.state.Q6) || "",
         Notes: this._sanitize(this.state.Notes) || "",
         Treatment: TREATMENT,
-        SiteVersion: 2.2,
+        SiteVersion: SITE_VERSION,
         Loaded: this.state.loaded,
       }),
     })

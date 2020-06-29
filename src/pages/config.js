@@ -3,6 +3,9 @@ import { robot_actionsA } from './robot_actionsA.js';
 import { robot_actionsB } from './robot_actionsB.js';
 import { robot_actionsBA } from './robot_actionsBA.js';
 
+const DEBUG_MODE = false;
+const SITE_VERSION = 2.3;
+
 const rewards1 = [1.0, 3.0, 2.5, 2.0]
 const rewards2 = [8.0, 10.0, 7.5, 6.0]
 const rewards3 = [10.0, 10.0, 25.0, 7.0]
@@ -23,6 +26,8 @@ const videos = [
   ['https://youtu.be/IOXn8A5EI7Q', 'https://youtu.be/rm4w5o4HnGk', 'https://youtu.be/AUdG5_rmx9M', 'https://youtu.be/QkJiRCapgUc'], 
   ['https://youtu.be/bOXhhWrgezo', 'https://youtu.be/afBC1nnR3Tg', 'https://youtu.be/5kKwR_tmu-s', 'https://youtu.be/0KMx_1-FU-s'], 
   ['https://youtu.be/a5w7cL3qbxQ', 'https://youtu.be/ntOPYEcG0gY', 'https://youtu.be/8uMbwh7WgG8', 'https://youtu.be/Iu7rha1YL5M']]
+
+const introVideoUrl = "https://www.youtube.com/watch?v=mkJ5-4U1VyU"
 
 const rooms = {
     0: 'Room A',
@@ -63,4 +68,4 @@ if (TREATMENT === 'AB') {
   MAX_ROOMS = 5;
 }
 
-export {rewards, successes, videos, rooms, robot_strategy, roomOrder, roomList, MAX_ROOMS, TREATMENT};
+export {rewards, successes, videos, introVideoUrl, rooms, robot_strategy, roomOrder, roomList, MAX_ROOMS, TREATMENT, DEBUG_MODE, SITE_VERSION};

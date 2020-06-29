@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import { withStyles } from '@material-ui/core/styles';
 import YouTubePlayer from 'react-player/lib/players/YouTube'
-import { rewards, rooms, successes, videos, roomOrder, roomList } from '../config.js';
+import { introVideoUrl, DEBUG_MODE } from '../config.js';
 
 const styles = theme => ({
   card: {
@@ -30,7 +30,7 @@ const styles = theme => ({
   }
 });
 
-class RobotVideo extends React.Component {
+class IntroVideo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -38,20 +38,18 @@ class RobotVideo extends React.Component {
       playtime: 0,
       videoDone: false,
     }
-    this.row = roomOrder[this.props.stage];
   }
 
   playVideo = () => {
-    this.props.scrollTop();
     this.setState({
-      playing: true
+      playing: true,
     });
   }
 
   updateState = (req, data) => {
-    this.setState({ [req]: data.played }, () => {
-      const vid = this.state.playtime > 0.99 || this.state.videoDone || !this.props.valid
-      this.setState({ videoDone: vid })
+    this.setState({[req]: data.played}, () => {
+        const vid = this.state.playtime > 0.99 || this.state.videoDone || DEBUG_MODE
+        this.setState({ videoDone: vid })
     });
   }
 
@@ -59,26 +57,21 @@ class RobotVideo extends React.Component {
     const { classes } = this.props;
 
     return (
-      <div className="RobotVideo">
-        <h1> Denise's choice</h1>
+      <div className="introVideo">
+        <h1> Instructions </h1>
         <Divider />
         <br />
-        {!this.state.playing && !this.state.videoDone ?
-          <div>
-            Denise has chosen to attempt {rooms[this.props.action]} worth {rewards[this.row][this.props.action]} points.
-            <img src={require('../../img/Room' + roomList[this.row][this.props.action] + '.PNG')} width="70%" alt="robotRoom" />
-            <br />
-            Click the button to see the results.
-            <br />
-          </div> : ""}
+        Please start by watching this instructional video. You must watch the entire video to proceed!
+        <br />
+        <br />
         {this.state.playing ?
           <div className="player-wrapper">
             <center>
               <YouTubePlayer
                 className='react-player'
-                url={videos[this.row] ? videos[this.row][this.props.action] : ""}
+                url={introVideoUrl}
                 playing={this.state.playing}
-                controls={!this.props.valid}
+                controls={DEBUG_MODE}
                 onProgress={(time) => this.updateState("playtime", time)}
                 ref={player => {
                   this.player = player;
@@ -91,26 +84,21 @@ class RobotVideo extends React.Component {
             Play Video
           </Button> : ""}
         <br />
-        {this.state.videoDone && successes[this.row] && successes[this.row][this.props.action] > 0 ?
-          `Denise succeeded! Your total score this round is ${this.props.roundScore} point(s).` : ""}
-        {this.state.videoDone && successes[this.row] && successes[this.row][this.props.action] === 0 ?
-          `Unfortunately, Denise failed this challenge. Your total score this round is still ${this.props.roundScore} point(s).` : ""}
         {this.state.videoDone ?
           <div className="buttons">
             <Button variant="contained" color="primary" className={classes.button} onClick={() => this.player.seekTo(0, "seconds")}>
               Replay
             </Button>
-            <Button variant="contained" color="primary" className={classes.button} onClick={this.props.nextPage}>
+            <Button variant="contained" color="primary" className={classes.button} onClick={this.props.nextScreen}>
               Continue
             </Button>
           </div> : ""}
 
         {this.state.playtime > 0 && !this.state.videoDone ? "Finish watching the video to proceed." : ""}
-
       </div>
 
     );
   }
 }
 
-export default withStyles(styles)(RobotVideo);
+export default withStyles(styles)(IntroVideo);

@@ -1,7 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
-import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import YouTubePlayer from 'react-player/lib/players/YouTube'
 import { rewards, rooms, successes, videos, roomOrder } from '../config.js';
@@ -67,28 +66,6 @@ class HumanVideo extends React.Component {
         Denise received your decision to attempt {rooms[this.props.action]} worth {rewards[this.row][this.props.action]} points.
         <br />
         <br />
-        {!this.state.playing ?
-          <div className={classes.textBox}>
-            <div className={classes.textBoxHeader}>
-              Please explain why you chose {rooms[this.props.action]} for Denise to attempt.
-            </div>
-            <TextField
-              id="outlined-multiline-flexible"
-              label="Response"
-              multiline
-              fullWidth
-              rows="6"
-              rowsMax="20"
-              onChange={this.props.saveText('H' + this.row)}
-              className={classes.textField}
-              margin="normal"
-              variant="outlined"
-            />
-          </div> : ""}
-        {!this.state.playing ?
-          <div>
-            Click the button to submit your response and see the results.
-        </div> : ""}
         {this.state.playing ?
           <div className="player-wrapper">
             <center>
@@ -106,7 +83,7 @@ class HumanVideo extends React.Component {
 
         {!this.state.playing ?
           <Button variant="contained" color="primary" className={classes.button} onClick={this.playVideo}>
-            Submit &amp; Play
+            Play Video
           </Button> : ""}
         <br />
         {this.state.videoDone && successes[this.row][this.props.action] > 0 ?

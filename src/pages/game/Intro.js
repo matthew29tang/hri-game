@@ -6,9 +6,11 @@ import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
+import IntroVideo from './IntroVideo.js';
 import MuiSlider from './inputs/MuiSlider.js';
 import MuiDropdown from './inputs/MuiDropdown.js';
 import MuiRadio from './inputs/MuiRadio.js';
+import { DEBUG_MODE } from '../config.js';
 
 
 const styles = theme => ({
@@ -51,7 +53,7 @@ class Intro extends React.Component {
     if (this.state.screen === -1) {
       this.props.clearCookies();
     }
-    if (this.state.screen === 3) {
+    if (this.state.screen === 4) {
       this.props.nextPage();
     }
     this.setState((state) => { return { screen: state.screen + 1 } });
@@ -133,6 +135,8 @@ class Intro extends React.Component {
               onChange={this.props.saveRadio("Q6")} />
           </div> : ""}
         {this.state.screen === 2 ?
+          <IntroVideo nextScreen={this.nextScreen} valid={!DEBUG_MODE}/> : ""}
+        {this.state.screen === 3 ?
           <div>
             You and Denise will be representing the Interaction Lab in the Robot Olympics.
             <br />
@@ -148,7 +152,7 @@ class Intro extends React.Component {
             <br />
             We don’t know what version you’ll be working with, but we’re sure that you’re going to do great.
             </div> : ""}
-        {this.state.screen === 3 ?
+        {this.state.screen === 4 ?
           <div>
             <p>
               The Olympics work in two stages.
@@ -192,13 +196,14 @@ class Intro extends React.Component {
             onClick={this.props.loadCookies}>
             Continue
         </Button> : ""}
+        {this.state.screen !== 2 ?
         <Button variant="contained" color="primary" className={classes.button}
           onClick={this.nextScreen}
-          disabled={(this.props.name.length <= 2 && this.state.screen === 3) || (
-            this.state.screen === 1 && !this.props.demographicsDone()
+          disabled={(this.props.name.length <= 2 && this.state.screen === 4) || (
+            this.state.screen === 1 && !this.props.demographicsDone() 
           )} >
           {this.state.screen === -1 ? "Start Over" : "Continue"}
-        </Button>
+        </Button> : ""}
       </div>
     )
   }
